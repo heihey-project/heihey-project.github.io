@@ -1,0 +1,2569 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <script>document.documentElement.classList.add('js');</script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EXPERIENCE｜Kohei Portal</title>
+  <meta name="description" content="おこげ（LOVOT）/ 経験値マップ / アクティビティ / 制作ポートフォリオを縦スクロールで楽しめる個人ポータル。" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent:#7c3aed;          /* purple */
+      --accent2:#5b21b6;
+      --bg-dark:#05060b;
+      --bg-gray:#f5f5f7;
+      --text:#1f2937;
+      --muted:#6b7280;
+      --max:1120px;
+      --header:72px;
+      --card:#ffffff;
+      --border:#e7e7ef;
+      --shadow:0 14px 34px rgba(0,0,0,.10);
+      --radius:18px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{
+      margin:0; padding:0;
+      font-family:"Noto Sans JP", system-ui, -apple-system, "Segoe UI", sans-serif;
+      color:var(--text);
+      background:#fff;
+      scroll-behavior:smooth;
+    }
+    a{ color:inherit; text-decoration:none; }
+    img{ max-width:100%; display:block; }
+
+    /* ---------------- Header ---------------- */
+    header.header{
+      position:fixed; inset:0 0 auto 0;
+      height:var(--header);
+      display:flex; align-items:center; justify-content:center;
+      background:rgba(5,6,11,.90);
+      backdrop-filter: blur(14px);
+      color:#fff;
+      z-index:1000;
+    }
+    .header-inner{
+      width:100%; max-width:var(--max);
+      padding:0 18px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+    }
+    .logo{
+      display:flex; align-items:center; gap:12px;
+      min-width: 160px;
+    }
+    .logo-mark{
+      width:34px; height:34px;
+      border-radius:999px;
+      background: radial-gradient(1200px 700px at 30% 20%, rgba(124,58,237,.18) 0%, rgba(2,6,23,0) 55%),
+                radial-gradient(1000px 600px at 70% 30%, rgba(56,189,248,.12) 0%, rgba(2,6,23,0) 60%),
+                linear-gradient(180deg, #070b14 0%, #050814 100%);
+      box-shadow:0 10px 22px rgba(0,0,0,.35);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900;
+    }
+    .logo-text .main{
+      font-size:12px; font-weight:900; letter-spacing:.18em; text-transform:uppercase;
+      line-height:1.1;
+    }
+    .logo-text .sub{
+      font-size:10px; opacity:.65; letter-spacing:.16em; text-transform:uppercase;
+      line-height:1.1;
+      margin-top:2px;
+    }
+
+    nav.nav{
+      display:flex; align-items:center; gap:18px;
+      font-size:12px;
+    }
+    nav.nav a{
+      position:relative; padding-bottom:3px;
+      opacity:.95;
+    }
+    nav.nav a::after{
+      content:""; position:absolute; left:0; bottom:0; width:0; height:2px;
+      background:var(--accent);
+      transition: width .18s ease;
+    }
+    nav.nav a:hover::after{ width:100%; }
+    .nav-cta{
+      height:34px;
+      padding:0 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.70);
+      background:rgba(0,0,0,.25);
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+    .nav-cta span{ font-size:16px; transform:translateY(1px); }
+
+    /* Mobile toggle */
+    .nav-toggle{
+      display:none;
+      width:28px; height:20px;
+      flex-direction:column; justify-content:space-between;
+      cursor:pointer;
+    }
+    .nav-toggle span{
+      display:block; height:2px; border-radius:999px; background:#fff;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    body.nav-open .nav-toggle span:nth-child(1){ transform:translateY(9px) rotate(45deg); }
+    body.nav-open .nav-toggle span:nth-child(2){ opacity:0; }
+    body.nav-open .nav-toggle span:nth-child(3){ transform:translateY(-9px) rotate(-45deg); }
+
+    .nav-sp{
+      display:none;
+      position:fixed; inset:var(--header) 0 auto 0;
+      background:rgba(5,6,11,.97);
+      color:#fff;
+      padding:16px 24px 24px;
+      z-index:900;
+    }
+    .nav-sp a{
+      display:block; padding:10px 0;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      font-size:13px;
+    }
+    body.nav-open .nav-sp{ display:block; }
+
+    /* ---------------- Hero ---------------- */
+    .hero{
+      padding-top:var(--header);
+      min-height: 520px;
+      background:
+        linear-gradient(135deg, rgba(5,6,11,.20), rgba(5,6,11,.55)),
+        radial-gradient(circle at 0% 0%, rgba(124,58,237,.20), rgba(5,6,11,.55) 55%),
+        radial-gradient(circle at 100% 80%, rgba(91,33,182,.22), rgba(5,6,11,.65) 52%),
+        url("images/hero_placeholder.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat:no-repeat;
+      color:#fff;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:52px 18px 64px;
+      display:grid;
+      grid-template-columns: minmax(0, 2.3fr) minmax(0, 1.7fr);
+      gap:40px;
+      align-items:center;
+      position:relative;
+      z-index:1;
+    }
+    .hero-label{
+      font-size:11px; letter-spacing:.34em; text-transform:uppercase;
+      opacity:.75; margin-bottom:14px;
+    }
+    .hero-title-en{
+      font-size: clamp(28px, 3.9vw, 38px);
+      font-weight: 900;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      line-height:1.25;
+    }
+    .hero-title-ja{
+      font-size:20px; font-weight:700;
+      margin-top:10px;
+    }
+    .hero-lead{
+      margin-top:14px;
+      padding-left:10px;
+      border-left:2px solid var(--accent);
+      font-size:13px;
+      line-height:1.95;
+      max-width:520px;
+      opacity:.92;
+    }
+    .hero-meta{
+      margin-top:18px;
+      font-size:12px; opacity:.82;
+    }
+    .btn-row{
+      margin-top:22px;
+      display:flex; flex-wrap:wrap; gap:12px; align-items:center;
+    }
+    .btn-primary{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      border-radius:999px;
+      padding:11px 20px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      border:none;
+      cursor:pointer;
+      color:#fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow:0 12px 26px rgba(0,0,0,.50);
+      white-space:nowrap;
+    }
+    .btn-primary span{ font-size:16px; transform:translateY(1px); }
+    .btn-secondary{
+      font-size:11px;
+      padding:9px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.60);
+      display:inline-flex; align-items:center; gap:8px;
+      opacity:.92;
+      white-space:nowrap;
+    }
+    .hero-right{
+      border-radius: 20px;
+      overflow:hidden;
+      background: rgba(15, 18, 30, .55);
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: 0 18px 40px rgba(0,0,0,.35);
+      min-height: 260px;
+      position:relative;
+    }
+    .hero-right::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,.14), rgba(255,255,255,0) 55%),
+        linear-gradient(140deg, rgba(0,0,0,.55), rgba(0,0,0,.25));
+      pointer-events:none;
+    }
+    .hero-right-inner{
+      position:relative;
+      padding:18px 18px 16px;
+      color:#fff;
+      font-size:12px;
+      display:flex;
+      flex-direction:column;
+      height:100%;
+      gap:10px;
+    }
+    .hero-right-head{
+      font-size:11px; letter-spacing:.20em; text-transform:uppercase;
+      opacity:.85;
+    }
+    .hero-right-title{
+      font-size:16px; font-weight:800; line-height:1.55;
+    }
+    .hero-right-note{
+      margin-top:2px;
+      font-size:11px;
+      opacity:.85;
+      line-height:1.7;
+    }
+    .hero-right-kpi{
+      margin-top:auto;
+      display:flex; flex-wrap:wrap; gap:8px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:6px;
+      padding:5px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      font-size:11px;
+      opacity:.95;
+    }
+    .pill strong{ font-weight:900; }
+
+    /* ---------------- Quick Cards ---------------- */
+    .category-nav{
+      background:#fff;
+      border-bottom:1px solid #e1e1e4;
+    }
+    .category-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:16px 18px 22px;
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap:14px;
+    }
+    .cat-card{
+      border-radius:14px;
+      padding:14px 14px 12px;
+      border:1px solid var(--border);
+      background:#ffffff; cursor:pointer;
+      display:grid;
+      gap:6px;
+      font-size:12px;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+    .cat-card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      border-color: var(--accent);
+    }
+    .cat-label{
+      font-size:10px; letter-spacing:.26em; text-transform:uppercase;
+      color: var(--accent2);
+    }
+    .cat-title{ font-size:14px; font-weight:800; }
+    .cat-text{ font-size:11px; color:#555; line-height:1.7; }
+    .cat-link{
+      margin-top:4px;
+      font-size:11px;
+      text-align:right;
+      color: var(--accent2);
+    }
+
+    /* ---------------- Sections base ---------------- */
+    main section{ padding: 72px 18px 76px; }
+    .section-inner{ max-width:var(--max); margin:0 auto; }
+    .section-label{
+      font-size:11px; letter-spacing:.32em; text-transform:uppercase;
+      color: var(--accent2);
+      margin-bottom:10px;
+    }
+    .section-title{ font-size:24px; font-weight:900; margin:0 0 8px; }
+    .section-title-sub{
+      font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+      opacity:.62;
+      margin-bottom:22px;
+    }
+    .section-lead{
+      font-size:14px;
+      line-height:1.95;
+      max-width:760px;
+      color:#444;
+      margin:0 0 30px;
+    }
+
+    /* ---------------- Business Sections ---------------- */
+    .sec-dark{
+      background: var(--bg-dark);
+      color:#fff;
+      position:relative;
+      overflow:hidden;
+    }
+    .sec-dark::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255,255,255,.08), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(124,58,237,.40), transparent 60%);
+      opacity:.9;
+    }
+    .sec-dark .section-inner{ position:relative; z-index:1; }
+    .sec-dark .section-label{ color: rgba(255,255,255,.72); }
+    .sec-dark .section-title{ color:#fff; }
+    .sec-dark .section-title-sub{ color: rgba(255,255,255,.70); opacity:1; }
+    .sec-dark .section-lead{ color: rgba(255,255,255,.86); }
+
+    .grid-2{
+      display:grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1.45fr);
+      gap:28px;
+      align-items:flex-start;
+    }
+    .panel{
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(12,14,22,.82);
+      padding:18px 18px 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+    }
+    .panel h3{
+      margin:0 0 10px;
+      font-size:14px;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      opacity:.92;
+    }
+    .list{
+      margin:0;
+      padding-left: 1.2em;
+      line-height:1.9;
+      color: rgba(255,255,255,.88);
+      font-size:13px;
+    }
+
+    /* Map block */
+    .map-wrap{
+      border-radius: var(--radius);
+      border:1px solid #e3e3ea;
+      background:#ffffff; padding: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    }
+    .map-head{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .map-head .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:5px 10px;
+      border-radius:999px;
+      border:1px solid #e7e7ef;
+      background:#fff;
+      font-size:11px;
+      color:#444;
+    }
+    .map-area{
+      border-radius: 14px;
+      overflow:hidden;
+      background:#0b1020;
+      border:1px solid rgba(124,58,237,.20);
+      position:relative;
+      aspect-ratio: 16 / 9;
+      min-height: 220px;
+    }
+    .map-area svg{
+      width:100%;
+      height:100%;
+      display:block;
+    }
+    .map-hint{
+      margin-top:10px;
+      font-size:12px;
+      color:#555;
+      line-height:1.8;
+    }
+    .map-legend{
+      display:flex; flex-wrap:wrap; gap:8px;
+      margin-top:10px;
+    }
+    .legend{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:11px;
+      color:#444;
+      background:#fff;
+      border:1px solid #e7e7ef;
+      border-radius:999px;
+      padding:5px 10px;
+    }
+    .dot{ width:10px; height:10px; border-radius:999px; display:inline-block; }
+    .lv0{ background:#cbd5e1; }
+    .lv1{ background:#a5b4fc; }
+    .lv2{ background:#8b5cf6; }
+    .lv3{ background:#7c3aed; }
+
+    /* Cards grid for detail pages preview */
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:14px;
+      margin-top: 22px;
+    }
+    .card{
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background: var(--card);
+      padding: 14px 14px 12px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+      display:grid;
+      gap:6px;
+      cursor:pointer;
+      transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 14px 32px rgba(0,0,0,.10);
+    }
+    .thumb{
+      border-radius: 12px;
+      overflow:hidden;
+      background:#111827;
+      aspect-ratio: 16 / 9;
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .thumb img{ width:100%; height:100%; object-fit:cover; }
+    .card .kicker{
+      font-size:10px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color: var(--accent2);
+      margin-top: 2px;
+    }
+    .card .title{
+      font-size:14px;
+      font-weight:900;
+      line-height:1.45;
+    }
+    .card .desc{
+      font-size:12px;
+      color:#555;
+      line-height:1.75;
+    }
+    .card .cta{
+      margin-top:4px;
+      font-size:11px;
+      color: var(--accent2);
+      text-align:right;
+    }
+
+    /* Light sections */
+    .sec-gray{ background: var(--bg-gray); }
+    .split{
+      display:grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
+      gap: 26px;
+      align-items:flex-start;
+    }
+    .box{
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background:#fff;
+      padding:18px 18px 16px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+    }
+    .box h3{ margin:0 0 10px; font-size:14px; font-weight:900; }
+    .box p{ margin:0; color:#555; line-height:1.9; font-size:13px; }
+    .box ul{ margin:10px 0 0; padding-left:1.2em; color:#555; line-height:1.9; font-size:13px; }
+
+    /* YouTube embed */
+    .embed{
+      border-radius: 16px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.08);
+      background:#000;
+      aspect-ratio: 16 / 9;
+      min-height: 220px;
+    }
+    .embed iframe{ width:100%; height:100%; border:0; display:block; }
+
+    /* Work CTA */
+    .cta-wide{
+      max-width: 820px;
+      margin: 26px auto 0;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid rgba(124,58,237,.30);
+      box-shadow: var(--shadow);
+      padding: 22px 20px 22px;
+      text-align:center;
+    }
+    .cta-wide .big{
+      font-size:20px;
+      font-weight:900;
+      margin:0 0 10px;
+    }
+    .cta-wide .lead{
+      margin:0 0 18px;
+      font-size:14px;
+      line-height:1.9;
+      color:#555;
+    }
+
+    /* Footer */
+    footer{
+      border-top:1px solid rgba(255,255,255,.08);
+      background: rgba(5,6,11,1);
+      color: rgba(255,255,255,.70);
+      padding: 18px 18px 22px;
+      font-size: 11px;
+    }
+    .footer-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    /* 上段：中央揃え */
+    .footer-row-top{
+      display:flex;
+      justify-content:center;
+      padding-top:6px;
+    }
+    .footer-logo{
+      height: 100px;
+      width: auto;
+      display:block;
+    }
+    /* 下段：3分割固定（左/中央/右） */
+    .footer-row-bottom{
+      display:grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items:center;
+      gap:12px;
+    }
+    .footer-left{ justify-self:start; }
+    .footer-center{ justify-self:center; }
+    .footer-right{ justify-self:end; }
+    .footer-links{ display:flex; gap:12px; }
+
+    
+
+    /* Scroll animation (safe on navigation) */
+    /* Default: visible (prevents blank screen if JS/IO doesn't fire yet) */
+    .scroll-fade{
+      opacity:1;
+      transform: none;
+      transition: opacity .7s ease-out, transform .7s ease-out;
+    }
+    /* When JS is active, start hidden and reveal via .is-visible */
+    html.js .scroll-fade{
+      opacity:0;
+      transform: translateY(26px);
+    }
+    html.js .scroll-fade.is-visible{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+/* Dialog */
+    dialog{
+      border:none;
+      border-radius: 16px;
+      width:min(620px, 92vw);
+      padding: 18px 18px 16px;
+    }
+    dialog::backdrop{ background: rgba(0,0,0,.38); }
+    .dlg-head{
+      display:flex; justify-content:space-between; align-items:flex-start; gap: 12px;
+    }
+    .dlg-head h3{ margin:0; font-size:16px; font-weight:900; }
+    .dlg-close{
+      border:1px solid #e7e7ef;
+      background:#fff;
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor:pointer;
+    }
+    .dlg-meta{
+      margin:6px 0 0;
+      font-size:12px;
+      color:#555;
+      line-height:1.8;
+    }
+    .dlg-links{
+      margin-top: 10px;
+      display:flex; flex-wrap:wrap; gap: 10px;
+      font-size:12px;
+    }
+    .dlg-links a{
+      border:1px solid #e7e7ef;
+      border-radius: 999px;
+      padding: 7px 12px;
+      background:#fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-inner{ grid-template-columns: minmax(0, 1fr); gap: 24px; }
+      .category-inner{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .grid-2, .split{ grid-template-columns: minmax(0,1fr); }
+      .cards{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 720px){
+      nav.nav{ display:none; }
+      .nav-toggle{ display:flex; }
+      main section{ padding: 62px 16px 66px; }
+      .hero-inner{ padding: 44px 16px 56px; }
+    }
+    @media (max-width: 520px){
+      .cards{ grid-template-columns: minmax(0,1fr); }
+      .hero-title-ja{ font-size: 18px; }
+      .hero-title-en{ font-size: 24px; }
+    }
+
+    /* Accessibility */
+    .visually-hidden{
+      position:absolute !important;
+      height:1px; width:1px;
+      overflow:hidden;
+      clip: rect(1px,1px,1px,1px);
+      white-space:nowrap;
+    }
+  
+    /* ---------------- Country Notes (dropdown banners) ---------------- */
+
+    /* Banner with right-side flag image + left fade */
+    summary.country-banner{
+      position: relative;
+      overflow:hidden;
+      padding-right: 150px; /* space for flag image */
+    }
+    .country-banner .iso{
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      opacity:.75;
+      min-width: 28px;
+    }
+    .country-banner .meta{ margin-left:auto; }
+    
+    
+    .banner-flagimg{
+      position:absolute;
+      inset:-18px -10px -18px auto; /* overflow beyond banner height */
+      width: 210px;
+      opacity: 1;
+      pointer-events:none;
+    }
+    
+    
+    .banner-flagimg::after{
+      content:"";
+      position:absolute;
+      right: 10px;
+      top: 50%;
+      width: 140px;
+      height: 140px;
+      transform: translateY(-50%) rotate(2deg);
+      background-image: var(--flag);
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size: contain;
+      filter: drop-shadow(0 10px 16px rgba(0,0,0,.14));
+      /* Fade ONLY the left 25% of the FLAG itself */
+      -webkit-mask-image: linear-gradient(
+        90deg,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,1) 25%,
+        rgba(0,0,0,1) 100%
+      );
+      mask-image: linear-gradient(
+        90deg,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,1) 25%,
+        rgba(0,0,0,1) 100%
+      );
+      -webkit-mask-size: 100% 100%;
+      mask-size: 100% 100%;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+    }
+
+/* Dark-mode-ish background still shows: keep it subtle */
+    details.country-dd{background:#ffffff;}
+
+    .country-notes{ margin-top: 10px; }
+    details.country-dd{
+      border-radius: 16px;
+      border:1px solid var(--border);
+      background:#fff;
+      box-shadow: 0 10px 24px rgba(0,0,0,.06);
+      overflow:hidden;
+      margin: 12px 0;
+    }
+    details.country-dd[open] .chev{ transform: rotate(180deg); }
+    summary.country-banner{
+      list-style:none;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 14px 14px;
+      cursor:pointer;
+      user-select:none;
+      background: #ffffff;border-bottom:1px solid rgba(0,0,0,.04);
+    }
+    summary.country-banner::-webkit-details-marker{ display:none; }
+    .country-banner .flag{ font-size:18px; }
+    .country-banner .name{ font-weight:900; letter-spacing:.04em; }
+    .country-banner .meta{ margin-left:auto; font-size:11px; color:#6b7280; }
+    .country-banner .chev{ font-size:14px; opacity:.7; transition: transform .16s ease; }
+
+    .country-body{ padding: 14px; background:#fff; }
+    .note-card{
+      border-radius: 14px;
+      border:1px solid rgba(124,58,237,.25);
+      background: rgba(124,58,237,.04);
+      padding: 14px 14px 12px;
+      display:grid;
+      gap: 6px;
+    }
+    .note-kicker{
+      font-size:10px;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color: var(--accent2);
+    }
+    .note-title{ font-size:14px; font-weight:900; }
+    .note-text{ font-size:12px; color:#444; line-height:1.85; }
+    .note-actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+    .note-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(124,58,237,.35);
+      background:#fff;
+      color: var(--accent2);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.08em;
+    }
+    .note-btn.subtle{
+      border-color: rgba(0,0,0,.10);
+      color:#444;
+    }
+
+    /* Jump highlight for the world card */
+    @keyframes cardPulse {
+      0% { box-shadow: 0 0 0 rgba(124,58,237,0); transform: translateY(0); }
+      30% { box-shadow: 0 0 0 6px rgba(124,58,237,.18); transform: translateY(-2px); }
+      100% { box-shadow: 0 0 0 rgba(124,58,237,0); transform: translateY(0); }
+    }
+    .country-dd.is-target{
+      border-color: var(--accent);
+      animation: cardPulse 1.1s ease-out 0s 2;
+    }
+
+    .card.is-target{
+      border-color: var(--accent);
+      animation: cardPulse 1.1s ease-out 0s 2;
+    }
+
+
+    /* Hide top-right CLICK badge and bottom legend/note area (world page) */
+    .map-head .badge:nth-child(2){ display:none !important; }
+    .map-legend{ display:none !important; }
+
+
+    /* Link to Japan page (inside left badge) */
+    .wj-toggle{
+      margin-left: 10px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+      vertical-align: middle;
+      text-decoration: none;
+    }
+    .wj-toggle:hover{ background: rgba(255,255,255,.10); }
+    .wj-ic{ font-size: 14px; line-height: 1; }
+    .wj-mid{ opacity: .7; font-weight: 900; }
+
+
+/* --- Japan map fit: center + keep whole Japan visible --- */
+.map-area{ position: relative; display:flex; align-items:center; justify-content:center; }
+#japanMap{ width:100%; height:100%; }
+#japanMap svg{
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  display:block;
+}
+
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner" style="justify-content:flex-end;">
+    <a href="main.html" style="
+      border:1px solid rgba(255,255,255,.6);
+      padding:10px 18px;
+      border-radius:999px;
+      text-decoration:none;
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    ">Return</a>
+  </div>
+</header>
+<main>
+<section class="sec-gray" id="exp">
+      <div class="section-inner scroll-fade">
+        <h2 class="section-title">EXPERIENCE</h2>
+        <div class="section-title-sub">tap map → detail page</div>
+
+        <div class="map-wrap">
+          <div class="map-head">
+            <div class="badge">JAPAN MAP
+<a class="wj-toggle" href="02_experience.html" aria-label="World ⇔ Japan" title="Switch to World">
+  <span class="wj-ic" aria-hidden="true">🗾➡️🌐</span>
+</a>
+</div>
+            <div class="badge">CLICK: Prefectures (JP01–JP47)</div>
+          </div>
+
+          <div class="map-area" aria-label="world map">
+            <!-- Precise world map (TopoJSON → SVG). Countries are real borders. -->
+            <div id="japanMap" class="jp-map-holder" role="img" aria-label="日本地図（都道府県）"></div>
+          </div>
+
+          <div class="map-legend" aria-label="legend">
+            <div class="legend"><span class="dot lv0"></span>Lv0 未訪問</div>
+            <div class="legend"><span class="dot lv1"></span>Lv1 通過</div>
+            <div class="legend"><span class="dot lv2"></span>Lv2 滞在</div>
+            <div class="legend"><span class="dot lv3"></span>Lv3 深い経験</div>
+          </div>
+
+        </div>
+
+        
+        <!-- Country notes (sample) -->
+        
+        <!-- Prefecture notes (demo) -->
+        <div class="country-notes" id="prefNotes" aria-label="prefecture notes">
+          <div class="section-label" style="margin-top:36px;">PREFECTURE NOTES</div>
+
+<details class="country-dd" id="dd-JP01">
+  <summary class="country-banner" data-pref="JP01" data-name="Hokkaido">
+    <span class="iso">JP01</span>
+    <span class="name">北海道 / Hokkaido</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP01" data-photo-query="Sapporo snow festival" style="--flag:url('https://loremflickr.com/400/400/Sapporo,snow,festival?lock=1')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="北海道 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('北海道 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%8C%97%E6%B5%B7%3C/text%3E%0A%3C/svg%3E" alt="北海道 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">北海道：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('北海道 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%8C%97%E6%B5%B7%3C/text%3E%0A%3C/svg%3E" alt="北海道 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">北海道：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP02">
+  <summary class="country-banner" data-pref="JP02" data-name="Aomori">
+    <span class="iso">JP02</span>
+    <span class="name">青森 / Aomori</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP02" data-photo-query="Nebuta festival" style="--flag:url('https://loremflickr.com/400/400/Nebuta,festival?lock=2')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="青森 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('青森 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%9D%92%E6%A3%AE%3C/text%3E%0A%3C/svg%3E" alt="青森 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">青森：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('青森 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%9D%92%E6%A3%AE%3C/text%3E%0A%3C/svg%3E" alt="青森 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">青森：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP03">
+  <summary class="country-banner" data-pref="JP03" data-name="Iwate">
+    <span class="iso">JP03</span>
+    <span class="name">岩手 / Iwate</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP03" data-photo-query="Chusonji temple" style="--flag:url('https://loremflickr.com/400/400/Chusonji,temple?lock=3')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="岩手 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('岩手 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B2%A9%E6%89%8B%3C/text%3E%0A%3C/svg%3E" alt="岩手 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">岩手：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('岩手 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B2%A9%E6%89%8B%3C/text%3E%0A%3C/svg%3E" alt="岩手 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">岩手：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP04">
+  <summary class="country-banner" data-pref="JP04" data-name="Miyagi">
+    <span class="iso">JP04</span>
+    <span class="name">宮城 / Miyagi</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP04" data-photo-query="Matsushima bay" style="--flag:url('https://loremflickr.com/400/400/Matsushima,bay?lock=4')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="宮城 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('宮城 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%AE%AE%E5%9F%8E%3C/text%3E%0A%3C/svg%3E" alt="宮城 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">宮城：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('宮城 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%AE%AE%E5%9F%8E%3C/text%3E%0A%3C/svg%3E" alt="宮城 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">宮城：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP05">
+  <summary class="country-banner" data-pref="JP05" data-name="Akita">
+    <span class="iso">JP05</span>
+    <span class="name">秋田 / Akita</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP05" data-photo-query="Namahage" style="--flag:url('https://loremflickr.com/400/400/Namahage?lock=5')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="秋田 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('秋田 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%A7%8B%E7%94%B0%3C/text%3E%0A%3C/svg%3E" alt="秋田 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">秋田：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('秋田 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%A7%8B%E7%94%B0%3C/text%3E%0A%3C/svg%3E" alt="秋田 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">秋田：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP06">
+  <summary class="country-banner" data-pref="JP06" data-name="Yamagata">
+    <span class="iso">JP06</span>
+    <span class="name">山形 / Yamagata</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP06" data-photo-query="Ginzan onsen" style="--flag:url('https://loremflickr.com/400/400/Ginzan,onsen?lock=6')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="山形 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('山形 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B1%B1%E5%BD%A2%3C/text%3E%0A%3C/svg%3E" alt="山形 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">山形：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('山形 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B1%B1%E5%BD%A2%3C/text%3E%0A%3C/svg%3E" alt="山形 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">山形：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP07">
+  <summary class="country-banner" data-pref="JP07" data-name="Fukushima">
+    <span class="iso">JP07</span>
+    <span class="name">福島 / Fukushima</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP07" data-photo-query="Tsuruga castle" style="--flag:url('https://loremflickr.com/400/400/Tsuruga,castle?lock=7')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="福島 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('福島 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%A6%8F%E5%B3%B6%3C/text%3E%0A%3C/svg%3E" alt="福島 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">福島：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('福島 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%A6%8F%E5%B3%B6%3C/text%3E%0A%3C/svg%3E" alt="福島 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">福島：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP08">
+  <summary class="country-banner" data-pref="JP08" data-name="Ibaraki">
+    <span class="iso">JP08</span>
+    <span class="name">茨城 / Ibaraki</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP08" data-photo-query="Hitachi seaside park nemophila" style="--flag:url('https://loremflickr.com/400/400/Hitachi,seaside,park?lock=8')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="茨城 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('茨城 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E8%8C%A8%E5%9F%8E%3C/text%3E%0A%3C/svg%3E" alt="茨城 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">茨城：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('茨城 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E8%8C%A8%E5%9F%8E%3C/text%3E%0A%3C/svg%3E" alt="茨城 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">茨城：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP09">
+  <summary class="country-banner" data-pref="JP09" data-name="Tochigi">
+    <span class="iso">JP09</span>
+    <span class="name">栃木 / Tochigi</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP09" data-photo-query="Nikko Toshogu" style="--flag:url('https://loremflickr.com/400/400/Nikko,Toshogu?lock=9')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="栃木 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('栃木 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%A0%83%E6%9C%A8%3C/text%3E%0A%3C/svg%3E" alt="栃木 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">栃木：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('栃木 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%A0%83%E6%9C%A8%3C/text%3E%0A%3C/svg%3E" alt="栃木 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">栃木：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP10">
+  <summary class="country-banner" data-pref="JP10" data-name="Gunma">
+    <span class="iso">JP10</span>
+    <span class="name">群馬 / Gunma</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP10" data-photo-query="Kusatsu onsen" style="--flag:url('https://loremflickr.com/400/400/Kusatsu,onsen?lock=10')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="群馬 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('群馬 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%BE%A4%E9%A6%AC%3C/text%3E%0A%3C/svg%3E" alt="群馬 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">群馬：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('群馬 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%BE%A4%E9%A6%AC%3C/text%3E%0A%3C/svg%3E" alt="群馬 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">群馬：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP11">
+  <summary class="country-banner" data-pref="JP11" data-name="Saitama">
+    <span class="iso">JP11</span>
+    <span class="name">埼玉 / Saitama</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP11" data-photo-query="Kawagoe" style="--flag:url('https://loremflickr.com/400/400/Kawagoe?lock=11')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="埼玉 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('埼玉 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%9F%BC%E7%8E%89%3C/text%3E%0A%3C/svg%3E" alt="埼玉 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">埼玉：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('埼玉 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%9F%BC%E7%8E%89%3C/text%3E%0A%3C/svg%3E" alt="埼玉 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">埼玉：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP12">
+  <summary class="country-banner" data-pref="JP12" data-name="Chiba">
+    <span class="iso">JP12</span>
+    <span class="name">千葉 / Chiba</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP12" data-photo-query="Tokyo Disney Resort" style="--flag:url('https://loremflickr.com/400/400/Tokyo,Disney,Resort?lock=12')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="千葉 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('千葉 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%8D%83%E8%91%89%3C/text%3E%0A%3C/svg%3E" alt="千葉 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">千葉：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('千葉 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%8D%83%E8%91%89%3C/text%3E%0A%3C/svg%3E" alt="千葉 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">千葉：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP13">
+  <summary class="country-banner" data-pref="JP13" data-name="Tokyo">
+    <span class="iso">JP13</span>
+    <span class="name">東京 / Tokyo</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP13" data-photo-query="Tokyo Tower night" style="--flag:url('https://loremflickr.com/400/400/Tokyo,Tower,night?lock=13')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="東京 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('東京 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%9D%B1%E4%BA%AC%3C/text%3E%0A%3C/svg%3E" alt="東京 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">東京：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('東京 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%9D%B1%E4%BA%AC%3C/text%3E%0A%3C/svg%3E" alt="東京 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">東京：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP14">
+  <summary class="country-banner" data-pref="JP14" data-name="Kanagawa">
+    <span class="iso">JP14</span>
+    <span class="name">神奈川 / Kanagawa</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP14" data-photo-query="Kamakura Great Buddha" style="--flag:url('https://loremflickr.com/400/400/Kamakura,Great,Buddha?lock=14')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="神奈川 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('神奈川 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%A5%9E%E5%A5%88%3C/text%3E%0A%3C/svg%3E" alt="神奈川 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">神奈川：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('神奈川 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%A5%9E%E5%A5%88%3C/text%3E%0A%3C/svg%3E" alt="神奈川 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">神奈川：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP15">
+  <summary class="country-banner" data-pref="JP15" data-name="Niigata">
+    <span class="iso">JP15</span>
+    <span class="name">新潟 / Niigata</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP15" data-photo-query="Sado island" style="--flag:url('https://loremflickr.com/400/400/Sado,island?lock=15')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="新潟 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('新潟 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%96%B0%E6%BD%9F%3C/text%3E%0A%3C/svg%3E" alt="新潟 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">新潟：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('新潟 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%96%B0%E6%BD%9F%3C/text%3E%0A%3C/svg%3E" alt="新潟 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">新潟：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP16">
+  <summary class="country-banner" data-pref="JP16" data-name="Toyama">
+    <span class="iso">JP16</span>
+    <span class="name">富山 / Toyama</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP16" data-photo-query="Tateyama Kurobe" style="--flag:url('https://loremflickr.com/400/400/Tateyama,Kurobe?lock=16')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="富山 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('富山 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%AF%8C%E5%B1%B1%3C/text%3E%0A%3C/svg%3E" alt="富山 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">富山：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('富山 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%AF%8C%E5%B1%B1%3C/text%3E%0A%3C/svg%3E" alt="富山 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">富山：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP17">
+  <summary class="country-banner" data-pref="JP17" data-name="Ishikawa">
+    <span class="iso">JP17</span>
+    <span class="name">石川 / Ishikawa</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP17" data-photo-query="Kenrokuen" style="--flag:url('https://loremflickr.com/400/400/Kenrokuen?lock=17')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="石川 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('石川 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%9F%B3%E5%B7%9D%3C/text%3E%0A%3C/svg%3E" alt="石川 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">石川：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('石川 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%9F%B3%E5%B7%9D%3C/text%3E%0A%3C/svg%3E" alt="石川 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">石川：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP18">
+  <summary class="country-banner" data-pref="JP18" data-name="Fukui">
+    <span class="iso">JP18</span>
+    <span class="name">福井 / Fukui</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP18" data-photo-query="Fukui dinosaur museum" style="--flag:url('https://loremflickr.com/400/400/Fukui,dinosaur,museum?lock=18')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="福井 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('福井 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%A6%8F%E4%BA%95%3C/text%3E%0A%3C/svg%3E" alt="福井 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">福井：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('福井 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%A6%8F%E4%BA%95%3C/text%3E%0A%3C/svg%3E" alt="福井 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">福井：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP19">
+  <summary class="country-banner" data-pref="JP19" data-name="Yamanashi">
+    <span class="iso">JP19</span>
+    <span class="name">山梨 / Yamanashi</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP19" data-photo-query="Mount Fuji" style="--flag:url('https://loremflickr.com/400/400/Mount,Fuji?lock=19')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="山梨 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('山梨 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B1%B1%E6%A2%A8%3C/text%3E%0A%3C/svg%3E" alt="山梨 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">山梨：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('山梨 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B1%B1%E6%A2%A8%3C/text%3E%0A%3C/svg%3E" alt="山梨 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">山梨：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP20">
+  <summary class="country-banner" data-pref="JP20" data-name="Nagano">
+    <span class="iso">JP20</span>
+    <span class="name">長野 / Nagano</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP20" data-photo-query="Jigokudani snow monkeys" style="--flag:url('https://loremflickr.com/400/400/Jigokudani,snow,monkeys?lock=20')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="長野 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('長野 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%95%B7%E9%87%8E%3C/text%3E%0A%3C/svg%3E" alt="長野 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">長野：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('長野 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%95%B7%E9%87%8E%3C/text%3E%0A%3C/svg%3E" alt="長野 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">長野：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP21">
+  <summary class="country-banner" data-pref="JP21" data-name="Gifu">
+    <span class="iso">JP21</span>
+    <span class="name">岐阜 / Gifu</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP21" data-photo-query="Shirakawa-go" style="--flag:url('https://loremflickr.com/400/400/Shirakawa,go?lock=21')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="岐阜 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('岐阜 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B2%90%E9%98%9C%3C/text%3E%0A%3C/svg%3E" alt="岐阜 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">岐阜：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('岐阜 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B2%90%E9%98%9C%3C/text%3E%0A%3C/svg%3E" alt="岐阜 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">岐阜：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP22">
+  <summary class="country-banner" data-pref="JP22" data-name="Shizuoka">
+    <span class="iso">JP22</span>
+    <span class="name">静岡 / Shizuoka</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP22" data-photo-query="Shizuoka Mount Fuji" style="--flag:url('https://loremflickr.com/400/400/Shizuoka,Mount,Fuji?lock=22')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="静岡 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('静岡 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%9D%99%E5%B2%A1%3C/text%3E%0A%3C/svg%3E" alt="静岡 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">静岡：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('静岡 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%9D%99%E5%B2%A1%3C/text%3E%0A%3C/svg%3E" alt="静岡 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">静岡：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP23">
+  <summary class="country-banner" data-pref="JP23" data-name="Aichi">
+    <span class="iso">JP23</span>
+    <span class="name">愛知 / Aichi</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP23" data-photo-query="Nagoya castle" style="--flag:url('https://loremflickr.com/400/400/Nagoya,castle?lock=23')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="愛知 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('愛知 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%84%9B%E7%9F%A5%3C/text%3E%0A%3C/svg%3E" alt="愛知 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">愛知：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('愛知 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%84%9B%E7%9F%A5%3C/text%3E%0A%3C/svg%3E" alt="愛知 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">愛知：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP24">
+  <summary class="country-banner" data-pref="JP24" data-name="Mie">
+    <span class="iso">JP24</span>
+    <span class="name">三重 / Mie</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP24" data-photo-query="Ise shrine" style="--flag:url('https://loremflickr.com/400/400/Ise,shrine?lock=24')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="三重 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('三重 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E4%B8%89%E9%87%8D%3C/text%3E%0A%3C/svg%3E" alt="三重 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">三重：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('三重 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E4%B8%89%E9%87%8D%3C/text%3E%0A%3C/svg%3E" alt="三重 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">三重：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP25">
+  <summary class="country-banner" data-pref="JP25" data-name="Shiga">
+    <span class="iso">JP25</span>
+    <span class="name">滋賀 / Shiga</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP25" data-photo-query="Lake Biwa" style="--flag:url('https://loremflickr.com/400/400/Lake,Biwa?lock=25')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="滋賀 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('滋賀 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%BB%8B%E8%B3%80%3C/text%3E%0A%3C/svg%3E" alt="滋賀 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">滋賀：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('滋賀 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%BB%8B%E8%B3%80%3C/text%3E%0A%3C/svg%3E" alt="滋賀 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">滋賀：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP26">
+  <summary class="country-banner" data-pref="JP26" data-name="Kyoto">
+    <span class="iso">JP26</span>
+    <span class="name">京都 / Kyoto</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP26" data-photo-query="Kiyomizu-dera" style="--flag:url('https://loremflickr.com/400/400/Kiyomizu,dera?lock=26')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="京都 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('京都 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E4%BA%AC%E9%83%BD%3C/text%3E%0A%3C/svg%3E" alt="京都 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">京都：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('京都 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E4%BA%AC%E9%83%BD%3C/text%3E%0A%3C/svg%3E" alt="京都 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">京都：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP27">
+  <summary class="country-banner" data-pref="JP27" data-name="Osaka">
+    <span class="iso">JP27</span>
+    <span class="name">大阪 / Osaka</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP27" data-photo-query="Dotonbori" style="--flag:url('https://loremflickr.com/400/400/Dotonbori?lock=27')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="大阪 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('大阪 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%A4%A7%E9%98%AA%3C/text%3E%0A%3C/svg%3E" alt="大阪 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">大阪：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('大阪 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%A4%A7%E9%98%AA%3C/text%3E%0A%3C/svg%3E" alt="大阪 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">大阪：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP28">
+  <summary class="country-banner" data-pref="JP28" data-name="Hyogo">
+    <span class="iso">JP28</span>
+    <span class="name">兵庫 / Hyogo</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP28" data-photo-query="Himeji castle" style="--flag:url('https://loremflickr.com/400/400/Himeji,castle?lock=28')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="兵庫 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('兵庫 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%85%B5%E5%BA%AB%3C/text%3E%0A%3C/svg%3E" alt="兵庫 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">兵庫：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('兵庫 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%85%B5%E5%BA%AB%3C/text%3E%0A%3C/svg%3E" alt="兵庫 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">兵庫：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP29">
+  <summary class="country-banner" data-pref="JP29" data-name="Nara">
+    <span class="iso">JP29</span>
+    <span class="name">奈良 / Nara</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP29" data-photo-query="Nara deer park" style="--flag:url('https://loremflickr.com/400/400/Nara,deer,park?lock=29')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="奈良 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('奈良 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%A5%88%E8%89%AF%3C/text%3E%0A%3C/svg%3E" alt="奈良 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">奈良：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('奈良 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%A5%88%E8%89%AF%3C/text%3E%0A%3C/svg%3E" alt="奈良 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">奈良：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP30">
+  <summary class="country-banner" data-pref="JP30" data-name="Wakayama">
+    <span class="iso">JP30</span>
+    <span class="name">和歌山 / Wakayama</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP30" data-photo-query="Nachi falls" style="--flag:url('https://loremflickr.com/400/400/Nachi,falls?lock=30')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="和歌山 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('和歌山 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%92%8C%E6%AD%8C%3C/text%3E%0A%3C/svg%3E" alt="和歌山 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">和歌山：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('和歌山 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%92%8C%E6%AD%8C%3C/text%3E%0A%3C/svg%3E" alt="和歌山 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">和歌山：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP31">
+  <summary class="country-banner" data-pref="JP31" data-name="Tottori">
+    <span class="iso">JP31</span>
+    <span class="name">鳥取 / Tottori</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP31" data-photo-query="Tottori sand dunes" style="--flag:url('https://loremflickr.com/400/400/Tottori,sand,dunes?lock=31')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="鳥取 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('鳥取 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%B3%A5%E5%8F%96%3C/text%3E%0A%3C/svg%3E" alt="鳥取 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">鳥取：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('鳥取 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%B3%A5%E5%8F%96%3C/text%3E%0A%3C/svg%3E" alt="鳥取 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">鳥取：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP32">
+  <summary class="country-banner" data-pref="JP32" data-name="Shimane">
+    <span class="iso">JP32</span>
+    <span class="name">島根 / Shimane</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP32" data-photo-query="Izumo taisha" style="--flag:url('https://loremflickr.com/400/400/Izumo,taisha?lock=32')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="島根 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('島根 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B3%B6%E6%A0%B9%3C/text%3E%0A%3C/svg%3E" alt="島根 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">島根：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('島根 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B3%B6%E6%A0%B9%3C/text%3E%0A%3C/svg%3E" alt="島根 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">島根：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP33">
+  <summary class="country-banner" data-pref="JP33" data-name="Okayama">
+    <span class="iso">JP33</span>
+    <span class="name">岡山 / Okayama</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP33" data-photo-query="Kurashiki" style="--flag:url('https://loremflickr.com/400/400/Kurashiki?lock=33')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="岡山 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('岡山 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B2%A1%E5%B1%B1%3C/text%3E%0A%3C/svg%3E" alt="岡山 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">岡山：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('岡山 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B2%A1%E5%B1%B1%3C/text%3E%0A%3C/svg%3E" alt="岡山 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">岡山：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP34">
+  <summary class="country-banner" data-pref="JP34" data-name="Hiroshima">
+    <span class="iso">JP34</span>
+    <span class="name">広島 / Hiroshima</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP34" data-photo-query="Itsukushima shrine" style="--flag:url('https://loremflickr.com/400/400/Itsukushima,shrine?lock=34')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="広島 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('広島 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%BA%83%E5%B3%B6%3C/text%3E%0A%3C/svg%3E" alt="広島 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">広島：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('広島 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%BA%83%E5%B3%B6%3C/text%3E%0A%3C/svg%3E" alt="広島 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">広島：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP35">
+  <summary class="country-banner" data-pref="JP35" data-name="Yamaguchi">
+    <span class="iso">JP35</span>
+    <span class="name">山口 / Yamaguchi</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP35" data-photo-query="Tsunoshima bridge" style="--flag:url('https://loremflickr.com/400/400/Tsunoshima,bridge?lock=35')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="山口 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('山口 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B1%B1%E5%8F%A3%3C/text%3E%0A%3C/svg%3E" alt="山口 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">山口：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('山口 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%B1%B1%E5%8F%A3%3C/text%3E%0A%3C/svg%3E" alt="山口 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">山口：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP36">
+  <summary class="country-banner" data-pref="JP36" data-name="Tokushima">
+    <span class="iso">JP36</span>
+    <span class="name">徳島 / Tokushima</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP36" data-photo-query="Awa odori" style="--flag:url('https://loremflickr.com/400/400/Awa,odori?lock=36')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="徳島 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('徳島 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%BE%B3%E5%B3%B6%3C/text%3E%0A%3C/svg%3E" alt="徳島 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">徳島：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('徳島 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%BE%B3%E5%B3%B6%3C/text%3E%0A%3C/svg%3E" alt="徳島 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">徳島：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP37">
+  <summary class="country-banner" data-pref="JP37" data-name="Kagawa">
+    <span class="iso">JP37</span>
+    <span class="name">香川 / Kagawa</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP37" data-photo-query="Ritsurin garden" style="--flag:url('https://loremflickr.com/400/400/Ritsurin,garden?lock=37')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="香川 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('香川 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%A6%99%E5%B7%9D%3C/text%3E%0A%3C/svg%3E" alt="香川 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">香川：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('香川 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%A6%99%E5%B7%9D%3C/text%3E%0A%3C/svg%3E" alt="香川 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">香川：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP38">
+  <summary class="country-banner" data-pref="JP38" data-name="Ehime">
+    <span class="iso">JP38</span>
+    <span class="name">愛媛 / Ehime</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP38" data-photo-query="Dogo onsen" style="--flag:url('https://loremflickr.com/400/400/Dogo,onsen?lock=38')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="愛媛 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('愛媛 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%84%9B%E5%AA%9B%3C/text%3E%0A%3C/svg%3E" alt="愛媛 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">愛媛：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('愛媛 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%84%9B%E5%AA%9B%3C/text%3E%0A%3C/svg%3E" alt="愛媛 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">愛媛：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP39">
+  <summary class="country-banner" data-pref="JP39" data-name="Kochi">
+    <span class="iso">JP39</span>
+    <span class="name">高知 / Kochi</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP39" data-photo-query="Katsurahama" style="--flag:url('https://loremflickr.com/400/400/Katsurahama?lock=39')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="高知 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('高知 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%AB%98%E7%9F%A5%3C/text%3E%0A%3C/svg%3E" alt="高知 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">高知：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('高知 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%AB%98%E7%9F%A5%3C/text%3E%0A%3C/svg%3E" alt="高知 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">高知：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP40">
+  <summary class="country-banner" data-pref="JP40" data-name="Fukuoka">
+    <span class="iso">JP40</span>
+    <span class="name">福岡 / Fukuoka</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP40" data-photo-query="Dazaifu tenmangu" style="--flag:url('https://loremflickr.com/400/400/Dazaifu,tenmangu?lock=40')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="福岡 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('福岡 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%A6%8F%E5%B2%A1%3C/text%3E%0A%3C/svg%3E" alt="福岡 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">福岡：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('福岡 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%A6%8F%E5%B2%A1%3C/text%3E%0A%3C/svg%3E" alt="福岡 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">福岡：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP41">
+  <summary class="country-banner" data-pref="JP41" data-name="Saga">
+    <span class="iso">JP41</span>
+    <span class="name">佐賀 / Saga</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP41" data-photo-query="Yoshinogari" style="--flag:url('https://loremflickr.com/400/400/Yoshinogari?lock=41')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="佐賀 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('佐賀 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E4%BD%90%E8%B3%80%3C/text%3E%0A%3C/svg%3E" alt="佐賀 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">佐賀：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('佐賀 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E4%BD%90%E8%B3%80%3C/text%3E%0A%3C/svg%3E" alt="佐賀 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">佐賀：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP42">
+  <summary class="country-banner" data-pref="JP42" data-name="Nagasaki">
+    <span class="iso">JP42</span>
+    <span class="name">長崎 / Nagasaki</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP42" data-photo-query="Gunkanjima" style="--flag:url('https://loremflickr.com/400/400/Gunkanjima?lock=42')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="長崎 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('長崎 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%95%B7%E5%B4%8E%3C/text%3E%0A%3C/svg%3E" alt="長崎 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">長崎：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('長崎 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%95%B7%E5%B4%8E%3C/text%3E%0A%3C/svg%3E" alt="長崎 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">長崎：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP43">
+  <summary class="country-banner" data-pref="JP43" data-name="Kumamoto">
+    <span class="iso">JP43</span>
+    <span class="name">熊本 / Kumamoto</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP43" data-photo-query="Kumamoto castle" style="--flag:url('https://loremflickr.com/400/400/Kumamoto,castle?lock=43')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="熊本 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('熊本 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%86%8A%E6%9C%AC%3C/text%3E%0A%3C/svg%3E" alt="熊本 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">熊本：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('熊本 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E7%86%8A%E6%9C%AC%3C/text%3E%0A%3C/svg%3E" alt="熊本 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">熊本：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP44">
+  <summary class="country-banner" data-pref="JP44" data-name="Oita">
+    <span class="iso">JP44</span>
+    <span class="name">大分 / Oita</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP44" data-photo-query="Beppu onsen" style="--flag:url('https://loremflickr.com/400/400/Beppu,onsen?lock=44')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="大分 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('大分 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%A4%A7%E5%88%86%3C/text%3E%0A%3C/svg%3E" alt="大分 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">大分：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('大分 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%A4%A7%E5%88%86%3C/text%3E%0A%3C/svg%3E" alt="大分 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">大分：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP45">
+  <summary class="country-banner" data-pref="JP45" data-name="Miyazaki">
+    <span class="iso">JP45</span>
+    <span class="name">宮崎 / Miyazaki</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP45" data-photo-query="Takachiho gorge" style="--flag:url('https://loremflickr.com/400/400/Takachiho,gorge?lock=45')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="宮崎 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('宮崎 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%AE%AE%E5%B4%8E%3C/text%3E%0A%3C/svg%3E" alt="宮崎 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">宮崎：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('宮崎 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E5%AE%AE%E5%B4%8E%3C/text%3E%0A%3C/svg%3E" alt="宮崎 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">宮崎：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP46">
+  <summary class="country-banner" data-pref="JP46" data-name="Kagoshima">
+    <span class="iso">JP46</span>
+    <span class="name">鹿児島 / Kagoshima</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP46" data-photo-query="Sakurajima" style="--flag:url('https://loremflickr.com/400/400/Sakurajima?lock=46')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="鹿児島 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('鹿児島 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%B9%BF%E5%85%90%3C/text%3E%0A%3C/svg%3E" alt="鹿児島 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">鹿児島：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('鹿児島 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E9%B9%BF%E5%85%90%3C/text%3E%0A%3C/svg%3E" alt="鹿児島 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">鹿児島：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+
+<details class="country-dd" id="dd-JP47">
+  <summary class="country-banner" data-pref="JP47" data-name="Okinawa">
+    <span class="iso">JP47</span>
+    <span class="name">沖縄 / Okinawa</span>
+    <span class="meta">サンプル • Lv0</span>
+    <span class="chev">▾</span>
+    <span class="banner-flagimg" data-pref="JP47" data-photo-query="Churaumi aquarium" style="--flag:url('https://loremflickr.com/400/400/Churaumi,aquarium?lock=47')" aria-hidden="true"></span>
+  </summary>
+  <div class="country-body">
+    <div class="cards" aria-label="沖縄 cards" style="grid-template-columns: repeat(2, minmax(0,1fr));">
+      <article class="card" onclick="alert('沖縄 の詳細ページ（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%B2%96%E7%B8%84%3C/text%3E%0A%3C/svg%3E" alt="沖縄 のサムネイル"></div>
+        <div class="kicker">experience</div>
+        <div class="title">沖縄：経験値</div>
+        <div class="desc">メモ・写真・動画リンク（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+      <article class="card" onclick="alert('沖縄 のノート（デモ）');">
+        <div class="thumb"><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27120%27%20height%3D%2780%27%3E%0A%3Cdefs%3E%3ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%3E%0A%3Cstop%20offset%3D%270%27%20stop-color%3D%27%23111827%27/%3E%3Cstop%20offset%3D%271%27%20stop-color%3D%27%230b1226%27/%3E%3C/linearGradient%3E%3C/defs%3E%0A%3Crect%20width%3D%27120%27%20height%3D%2780%27%20rx%3D%2710%27%20fill%3D%27url%28%23g%29%27/%3E%0A%3Ctext%20x%3D%2750%25%27%20y%3D%2754%25%27%20text-anchor%3D%27middle%27%20font-family%3D%27Arial%27%20font-size%3D%2718%27%20fill%3D%27rgba%28255%2C255%2C255%2C.75%29%27%3E%E6%B2%96%E7%B8%84%3C/text%3E%0A%3C/svg%3E" alt="沖縄 のノートのサムネイル"></div>
+        <div class="kicker">note</div>
+        <div class="title">沖縄：ノート</div>
+        <div class="desc">気づき・おすすめ・リンク集（デモ）。</div>
+        <div class="cta">OPEN →</div>
+      </article>
+    </div>
+  </div>
+</details>
+        </div></div>
+      </div>
+    </section>
+
+</main>
+<footer>
+    <div class="footer-inner">
+      <!-- 上段：画像 -->
+      <div class="footer-row footer-row-top">
+        <a href="main.html" aria-label="HOMEへ（フッターロゴ）" style="display:inline-block;"><img src="images/top2.png" alt="HEIHEY" class="footer-logo"></a>
+      </div>
+      <!-- 下段：3分割 -->
+      <div class="footer-row footer-row-bottom">
+        <div class="footer-left">© HEIHEY PORTAL</div>
+        <div class="footer-center footer-links"><a href="#top">TOP</a></div>
+        <div class="footer-right" style="opacity:.78;">
+          Last update: <span id="lastUpdate"></span>
+        </div>
+      </div>
+    </div>
+  </footer>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+
+<script>
+    
+    // Banner ordering rule (memo):
+    // - World: Japan first, then by AREA, then alphabetically in area.
+    // - Area order: Asia, Europe, America, Oceania, Africa, Other.
+
+// --- Mobile nav ---
+    const navToggle = document.getElementById("navToggle");
+    const navSp = document.getElementById("navSp");
+    navToggle?.addEventListener("click", () => {
+      const isOpen = document.body.classList.toggle("nav-open");
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+    navSp?.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+      document.body.classList.remove("nav-open");
+      navToggle.setAttribute("aria-expanded", "false");
+    }));
+
+    // --- Scroll fade-in (robust for link navigation / scroll restoration) ---
+    const scrollEls = Array.from(document.querySelectorAll(".scroll-fade"));
+
+    // Reveal anything currently in the viewport (no scroll needed)
+    function revealInView(){
+      const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      for(const el of scrollEls){
+        if(el.classList.contains("is-visible")) continue;
+        const r = el.getBoundingClientRect();
+        if(r.bottom > 0 && r.top < vh){
+          el.classList.add("is-visible");
+        }
+      }
+    }
+
+    // IntersectionObserver (normal path)
+    let obs = null;
+    if("IntersectionObserver" in window){
+      obs = new IntersectionObserver((entries) => {
+        for(const entry of entries){
+          if(entry.isIntersecting){
+            entry.target.classList.add("is-visible");
+            obs && obs.unobserve(entry.target);
+          }
+        }
+      }, { threshold: 0.18, rootMargin: "0px 0px -5% 0px" });
+      scrollEls.forEach(el => obs.observe(el));
+    }else{
+      // Fallback: show all
+      scrollEls.forEach(el => el.classList.add("is-visible"));
+    }
+
+    // Force-check at timings that work even when coming from another page
+    function forceReveal(){
+      revealInView();
+      // After scroll restoration / layout stabilization
+      requestAnimationFrame(() => {
+        revealInView();
+        requestAnimationFrame(revealInView);
+      });
+      setTimeout(revealInView, 80);
+      setTimeout(revealInView, 250);
+    }
+
+    // Run immediately if possible
+    if(document.readyState === "interactive" || document.readyState === "complete"){
+      forceReveal();
+    }else{
+      document.addEventListener("DOMContentLoaded", forceReveal, { once:true });
+    }
+    window.addEventListener("load", forceReveal, { once:true });
+
+    // Key: fires on back-forward cache AND some navigation restores
+    window.addEventListener("pageshow", forceReveal);
+
+    // Tab restore / delayed painting
+    document.addEventListener("visibilitychange", () => {
+      if(!document.hidden) forceReveal();
+    });
+
+    // If STILL nothing visible (rare mobile paint bug), fail-safe show all.
+    setTimeout(() => {
+      const anyVisible = scrollEls.some(el => el.classList.contains("is-visible"));
+      if(!anyVisible){
+        scrollEls.forEach(el => el.classList.add("is-visible"));
+      }
+    }, 600);
+
+// --- Footer date ---
+    const d = new Date();
+    document.getElementById("lastUpdate").textContent = d.toISOString().slice(0,10);
+
+    
+    
+    // --- JAPAN MAP (SVG Prefectures) ---
+    // Uses @svg-maps/japan (SVG) so it behaves like the World版（クリック→下のバナーへ移動）.
+    // Data source: https://cdn.jsdelivr.net/npm/@svg-maps/japan@2.0.0/japan.svg
+
+    const PREFS = {"JP01": {"en": "Hokkaido", "ja": "北海道", "region": "Hokkaido"}, "JP02": {"en": "Aomori", "ja": "青森", "region": "Tohoku"}, "JP03": {"en": "Iwate", "ja": "岩手", "region": "Tohoku"}, "JP04": {"en": "Miyagi", "ja": "宮城", "region": "Tohoku"}, "JP05": {"en": "Akita", "ja": "秋田", "region": "Tohoku"}, "JP06": {"en": "Yamagata", "ja": "山形", "region": "Tohoku"}, "JP07": {"en": "Fukushima", "ja": "福島", "region": "Tohoku"}, "JP08": {"en": "Ibaraki", "ja": "茨城", "region": "Kanto"}, "JP09": {"en": "Tochigi", "ja": "栃木", "region": "Kanto"}, "JP10": {"en": "Gunma", "ja": "群馬", "region": "Kanto"}, "JP11": {"en": "Saitama", "ja": "埼玉", "region": "Kanto"}, "JP12": {"en": "Chiba", "ja": "千葉", "region": "Kanto"}, "JP13": {"en": "Tokyo", "ja": "東京", "region": "Kanto"}, "JP14": {"en": "Kanagawa", "ja": "神奈川", "region": "Kanto"}, "JP15": {"en": "Niigata", "ja": "新潟", "region": "Chubu"}, "JP16": {"en": "Toyama", "ja": "富山", "region": "Chubu"}, "JP17": {"en": "Ishikawa", "ja": "石川", "region": "Chubu"}, "JP18": {"en": "Fukui", "ja": "福井", "region": "Chubu"}, "JP19": {"en": "Yamanashi", "ja": "山梨", "region": "Chubu"}, "JP20": {"en": "Nagano", "ja": "長野", "region": "Chubu"}, "JP21": {"en": "Gifu", "ja": "岐阜", "region": "Chubu"}, "JP22": {"en": "Shizuoka", "ja": "静岡", "region": "Chubu"}, "JP23": {"en": "Aichi", "ja": "愛知", "region": "Chubu"}, "JP24": {"en": "Mie", "ja": "三重", "region": "Kansai"}, "JP25": {"en": "Shiga", "ja": "滋賀", "region": "Kansai"}, "JP26": {"en": "Kyoto", "ja": "京都", "region": "Kansai"}, "JP27": {"en": "Osaka", "ja": "大阪", "region": "Kansai"}, "JP28": {"en": "Hyogo", "ja": "兵庫", "region": "Kansai"}, "JP29": {"en": "Nara", "ja": "奈良", "region": "Kansai"}, "JP30": {"en": "Wakayama", "ja": "和歌山", "region": "Kansai"}, "JP31": {"en": "Tottori", "ja": "鳥取", "region": "Chugoku"}, "JP32": {"en": "Shimane", "ja": "島根", "region": "Chugoku"}, "JP33": {"en": "Okayama", "ja": "岡山", "region": "Chugoku"}, "JP34": {"en": "Hiroshima", "ja": "広島", "region": "Chugoku"}, "JP35": {"en": "Yamaguchi", "ja": "山口", "region": "Chugoku"}, "JP36": {"en": "Tokushima", "ja": "徳島", "region": "Shikoku"}, "JP37": {"en": "Kagawa", "ja": "香川", "region": "Shikoku"}, "JP38": {"en": "Ehime", "ja": "愛媛", "region": "Shikoku"}, "JP39": {"en": "Kochi", "ja": "高知", "region": "Shikoku"}, "JP40": {"en": "Fukuoka", "ja": "福岡", "region": "Kyushu"}, "JP41": {"en": "Saga", "ja": "佐賀", "region": "Kyushu"}, "JP42": {"en": "Nagasaki", "ja": "長崎", "region": "Kyushu"}, "JP43": {"en": "Kumamoto", "ja": "熊本", "region": "Kyushu"}, "JP44": {"en": "Oita", "ja": "大分", "region": "Kyushu"}, "JP45": {"en": "Miyazaki", "ja": "宮崎", "region": "Kyushu"}, "JP46": {"en": "Kagoshima", "ja": "鹿児島", "region": "Kyushu"}, "JP47": {"en": "Okinawa", "ja": "沖縄", "region": "Kyushu"}};
+    // Photo search keywords per prefecture (representative iconic things).
+    // If you want to tweak: keep it short + visual (food/landmark/nature/festival).
+    const PREF_PHOTO_KEYWORDS = {
+      "JP01":"Sapporo snow festival",
+      "JP02":"Aomori Nebuta festival",
+      "JP03":"Hiraizumi Chuson-ji temple",
+      "JP04":"Matsushima bay Japan",
+      "JP05":"Akita Kanto festival",
+      "JP06":"Yamadera temple Yamagata",
+      "JP07":"Ouchi-juku Fukushima",
+      "JP08":"Hitachi seaside park nemophila",
+      "JP09":"Nikko Toshogu shrine",
+      "JP10":"Kusatsu onsen",
+      "JP11":"Kawagoe old town",
+      "JP12":"Tokyo Disneyland",
+      "JP13":"Tokyo skyline Shibuya crossing",
+      "JP14":"Yokohama Minato Mirai",
+      "JP15":"Niigata rice terraces",
+      "JP16":"Tateyama Kurobe alpine route",
+      "JP17":"Kenrokuen garden Kanazawa",
+      "JP18":"Eiheiji temple Fukui",
+      "JP19":"Mount Fuji Lake Kawaguchiko",
+      "JP20":"Matsumoto castle",
+      "JP21":"Shirakawa-go gassho houses",
+      "JP22":"Shizuoka green tea Mount Fuji",
+      "JP23":"Nagoya castle",
+      "JP24":"Ise Jingu shrine",
+      "JP25":"Lake Biwa",
+      "JP26":"Fushimi Inari shrine",
+      "JP27":"Osaka castle",
+      "JP28":"Himeji castle",
+      "JP29":"Nara deer park",
+      "JP30":"Koyasan temple",
+      "JP31":"Tottori sand dunes",
+      "JP32":"Izumo Taisha shrine",
+      "JP33":"Korakuen garden Okayama",
+      "JP34":"Itsukushima shrine Miyajima",
+      "JP35":"Kintai bridge Iwakuni",
+      "JP36":"Awa Odori festival",
+      "JP37":"Ritsurin garden Takamatsu",
+      "JP38":"Dogo onsen",
+      "JP39":"Kochi castle",
+      "JP40":"Hakata ramen",
+      "JP41":"Arita porcelain",
+      "JP42":"Nagasaki night view",
+      "JP43":"Kumamoto castle",
+      "JP44":"Beppu onsen",
+      "JP45":"Takachiho gorge",
+      "JP46":"Sakurajima volcano",
+      "JP47":"Okinawa Shurijo castle"
+    };
+
+
+    function jumpToPref(code){
+      const dd = document.getElementById("dd-" + code);
+      if(!dd) return;
+      dd.open = true;
+      dd.scrollIntoView({ behavior:"smooth", block:"start" });
+    }
+
+    async function loadJapanSvg(){
+      const holder = document.getElementById("japanMap");
+      if(!holder) return;
+
+      // If CDN is blocked, show a friendly message inside the map area.
+      const urls = [
+        "https://geolonia.github.io/japanese-prefectures/map-full.svg",
+        "https://geolonia.github.io/japanese-prefectures/map-mobile.svg",
+        "https://raw.githubusercontent.com/geolonia/japanese-prefectures/master/map-full.svg",
+        "https://cdn.jsdelivr.net/npm/%40svg-maps/japan@2.0.0/japan.svg"
+      ];
+      try {
+        let svgText = "";
+        let lastErr = null;
+        for(const u of urls){
+          try{
+            const res = await fetch(u, { cache: "force-cache" });
+            if(!res.ok) throw new Error("HTTP " + res.status);
+            svgText = await res.text();
+            if(svgText && svgText.includes("<svg")) { lastErr = null; break; }
+          }catch(e){ lastErr = e; }
+        }
+        if(!svgText) throw (lastErr || new Error("No SVG loaded"));
+        holder.innerHTML = svgText;
+
+        const svg = holder.querySelector("svg");
+        if(!svg) throw new Error("SVG parse failed");
+
+        // Fit into the same map area as World版
+        svg.setAttribute("width","100%");
+        svg.setAttribute("height","100%");
+        svg.setAttribute("preserveAspectRatio","xMidYMid meet");
+        svg.style.display = "block";
+
+        // Style to match World map feel (dark sea + subtle borders)
+        svg.style.background = "transparent";
+
+        // Apply classes and handlers to prefecture shapes
+        // Geolonia SVG: each prefecture is a <g class="... prefecture" data-code="01..47">
+        // @svg-maps/japan SVG: each prefecture is usually a <path id="JP-xx"> etc.
+        const shapes = Array.from(svg.querySelectorAll(".prefecture[data-code]"));
+        if(!shapes.length){
+          shapes.push(...Array.from(svg.querySelectorAll("[id^='JP']")));
+          shapes.push(...Array.from(svg.querySelectorAll("[data-id^='JP']")));
+        }
+
+shapes.forEach(el => {
+          let code = "";
+          const dc = el.getAttribute("data-code");
+          if(dc){
+            code = "JP" + String(dc).padStart(2,"0");
+          }else{
+            // svg-maps/japan style (e.g. id="JP-01" or "JP01")
+            const raw = el.getAttribute("id") || el.getAttribute("data-id") || "";
+            code = raw.replace(/[^0-9]/g,"");
+            code = code ? ("JP" + code.padStart(2,"0")) : "";
+          }
+          if(!code || !PREFS[code]) return;
+
+          el.style.fill = "rgba(255,255,255,.10)";
+          el.style.stroke = "rgba(255,255,255,.38)";
+          el.style.strokeWidth = "0.9";
+          el.style.cursor = "pointer";
+
+          el.addEventListener("mouseenter", () => {
+            el.style.fill = "rgba(255,255,255,.26)";
+            el.style.stroke = "rgba(255,255,255,.70)";
+          });
+          el.addEventListener("mouseleave", () => {
+            el.style.fill = "rgba(255,255,255,.10)";
+            el.style.stroke = "rgba(255,255,255,.38)";
+          });
+          el.addEventListener("click", () => jumpToPref(code));
+        });
+
+        // Optional: center/scale if the SVG has large whitespace
+        // Wrap in a <g> transform by adjusting viewBox if provided.
+        // (We keep the SVG as-is to avoid breaking.)
+
+      } catch(err) {
+        console.error("Japan SVG load failed:", err);
+        holder.innerHTML = `
+          <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+                      color:rgba(255,255,255,.85);font-weight:800;letter-spacing:.08em;">
+            Japan map data failed to load. (Check network / URL)
+          </div>`;
+      }
+    }
+
+    // --- Prefecture photo (Pexels) ---
+    // Lazy-load one representative photo when the user opens each prefecture.
+    const PEXELS_KEY = "dip861YCVn9vynTbtKaCusxc69VsOmE0CWSPFIlQoApypvaksgBzaUf6";
+    const photoCache = new Map();
+
+    function buildFallbackPhotoUrl(query){
+      // No-auth, no-CORS image endpoint (works even from file://)
+      return "https://source.unsplash.com/800x600/?" + encodeURIComponent(query);
+    }
+
+    async function fetchPexelsPhoto(query){
+      // Try Pexels first (nice quality), but some environments block CORS from file://.
+      // If it fails, fall back to Unsplash Source (no API key required).
+      if(photoCache.has(query)) return photoCache.get(query);
+
+      try {
+        const res = await fetch("https://api.pexels.com/v1/search?per_page=1&orientation=landscape&query=" + encodeURIComponent(query), {
+          headers: { Authorization: PEXELS_KEY }
+        });
+        if(!res.ok) throw new Error("pexels HTTP " + res.status);
+        const data = await res.json();
+        const url = data?.photos?.[0]?.src?.large || data?.photos?.[0]?.src?.medium || "";
+        const finalUrl = url || buildFallbackPhotoUrl(query);
+        photoCache.set(query, finalUrl);
+        return finalUrl;
+      } catch(e) {
+        console.warn("Pexels fetch failed, using fallback:", e);
+        const finalUrl = buildFallbackPhotoUrl(query);
+        photoCache.set(query, finalUrl);
+        return finalUrl;
+      }
+    }
+
+    function setPrefBannerPhoto(code, url){
+      if(!url) return;
+      const el = document.querySelector(`.pref-photo[data-pref="${code}"]`);
+      if(!el) return;
+      el.style.setProperty("--flag", `url('${url}')`);
+    }
+
+    function attachPrefLazyPhotos(){
+      document.querySelectorAll("details.country-dd").forEach(dd => {
+        dd.addEventListener("toggle", async () => {
+          if(!dd.open) return;
+          const code = dd.id.replace("dd-","");
+          const meta = PREFS[code];
+          if(!meta) return;
+
+          const already = document.querySelector(`.pref-photo[data-pref="${code}"]`)?.style.getPropertyValue("--flag") || "";
+          // If already replaced (not placeholder), skip
+          if(already.includes("pexels.com") || already.includes("images.pexels.com")) return;
+
+          // Query examples: "Hokkaido Japan landscape", "Kyoto temple"
+          const q = (PREF_PHOTO_KEYWORDS[code] || `${meta.en} Japan`) ;
+          const photoUrl = await fetchPexelsPhoto(q);
+          if(photoUrl) setPrefBannerPhoto(code, photoUrl);
+        }, { passive:true });
+      });
+    }
+
+    loadJapanSvg();
+    attachPrefLazyPhotos();
+
+</script>
+</body>
+</html>
