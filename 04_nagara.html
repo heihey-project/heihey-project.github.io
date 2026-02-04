@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ACTIVITY｜Kohei Portal</title>
-  <meta name="description" content="おこげ（LOVOT）/ 経験値マップ / アクティビティ / 制作ポートフォリオを縦スクロールで楽しめる個人ポータル。" />
+  <title>NAGARA TRIVIA｜Kohei Portal</title>
+  <meta name="description" content="ながら雑学チャンネル紹介。ナレーション設計。おすすめ動画と再生リストへの導線。" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +15,7 @@
     :root{
       --accent:#7c3aed;          /* purple */
       --accent2:#5b21b6;
+      --accent3:#a78bfa;
       --bg-dark:#05060b;
       --bg-gray:#f5f5f7;
       --text:#1f2937;
@@ -24,6 +25,7 @@
       --card:#ffffff;
       --border:#e7e7ef;
       --shadow:0 14px 34px rgba(0,0,0,.10);
+      --shadow2:0 18px 46px rgba(0,0,0,.16);
       --radius:18px;
     }
 
@@ -38,7 +40,7 @@
     a{ color:inherit; text-decoration:none; }
     img{ max-width:100%; display:block; }
 
-    /* ---------------- Header ---------------- */
+    /* ---------------- Header (keep theme) ---------------- */
     header.header{
       position:fixed; inset:0 0 auto 0;
       height:var(--header);
@@ -51,154 +53,134 @@
     .header-inner{
       width:100%; max-width:var(--max);
       padding:0 18px;
-      display:flex; align-items:center; justify-content:space-between;
+      display:flex; align-items:center; justify-content:flex-end;
       gap:12px;
     }
-    .logo{
-      display:flex; align-items:center; gap:12px;
-      min-width: 160px;
-    }
-    .logo-mark{
-      width:34px; height:34px;
+    .return-link{
+      border:1px solid rgba(255,255,255,.6);
+      padding:10px 18px;
       border-radius:999px;
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.35), rgba(255,255,255,.10)),
-                  linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow:0 10px 22px rgba(0,0,0,.35);
-      display:flex; align-items:center; justify-content:center;
-      font-weight:900;
-    }
-    .logo-text .main{
-      font-size:12px; font-weight:900; letter-spacing:.18em; text-transform:uppercase;
-      line-height:1.1;
-    }
-    .logo-text .sub{
-      font-size:10px; opacity:.65; letter-spacing:.16em; text-transform:uppercase;
-      line-height:1.1;
-      margin-top:2px;
-    }
-
-    nav.nav{
-      display:flex; align-items:center; gap:18px;
+      text-decoration:none;
       font-size:12px;
-    }
-    nav.nav a{
-      position:relative; padding-bottom:3px;
-      opacity:.95;
-    }
-    nav.nav a::after{
-      content:""; position:absolute; left:0; bottom:0; width:0; height:2px;
-      background:var(--accent);
-      transition: width .18s ease;
-    }
-    nav.nav a:hover::after{ width:100%; }
-    .nav-cta{
-      height:34px;
-      padding:0 14px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.70);
-      background:rgba(0,0,0,.25);
-      display:inline-flex; align-items:center; justify-content:center; gap:8px;
-      font-size:11px;
       letter-spacing:.18em;
       text-transform:uppercase;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:40px;
+      white-space:nowrap;
     }
-    .nav-cta span{ font-size:16px; transform:translateY(1px); }
 
-    /* Mobile toggle */
-    .nav-toggle{
-      display:none;
-      width:28px; height:20px;
-      flex-direction:column; justify-content:space-between;
+    /* Language toggle (index.html style, adapted) */
+    .lang-switch{ display:flex; align-items:center; gap:10px; }
+    .lang-btn{
+      height:40px; width:40px;
+      padding:0;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.18);
       cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center;
+      transition: transform .14s ease, border-color .14s ease, background .14s ease, opacity .14s ease;
+      opacity:.92;
     }
-    .nav-toggle span{
-      display:block; height:2px; border-radius:999px; background:#fff;
-      transition: transform .2s ease, opacity .2s ease;
+    .lang-btn:hover{ transform: translateY(-1px); border-color: rgba(124,58,237,.65); background: rgba(0,0,0,.26); }
+    .lang-btn .flag{
+      width:22px; height:22px; border-radius:4px;
+      box-shadow: 0 6px 14px rgba(0,0,0,.25);
+      display:block;
     }
-    body.nav-open .nav-toggle span:nth-child(1){ transform:translateY(9px) rotate(45deg); }
-    body.nav-open .nav-toggle span:nth-child(2){ opacity:0; }
-    body.nav-open .nav-toggle span:nth-child(3){ transform:translateY(-9px) rotate(-45deg); }
+    body.lang-ja .lang-btn[data-set-lang="ja"],
+    body.lang-en .lang-btn[data-set-lang="en"]{
+      border-color: rgba(124,58,237,.75);
+      background: rgba(124,58,237,.18);
+      opacity:1;
+    }
 
-    .nav-sp{
-      display:none;
-      position:fixed; inset:var(--header) 0 auto 0;
-      background:rgba(5,6,11,.97);
-      color:#fff;
-      padding:16px 24px 24px;
-      z-index:900;
-    }
-    .nav-sp a{
-      display:block; padding:10px 0;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      font-size:13px;
-    }
-    body.nav-open .nav-sp{ display:block; }
+    /* i18n visibility */
+    [data-lang]{ display:none; }
+    body.lang-ja [data-lang="ja"]{ display:block; }
+    body.lang-en [data-lang="en"]{ display:block; }
+    [data-lang-inline]{ display:none; }
+    body.lang-ja [data-lang-inline="ja"]{ display:inline; }
+    body.lang-en [data-lang-inline="en"]{ display:inline; }
 
-    /* ---------------- Hero ---------------- */
+    /* ---------------- Hero (purple gradient, no image) ---------------- */
     .hero{
       padding-top:var(--header);
-      min-height: 520px;
+      min-height: 440px;
       background:
-        linear-gradient(135deg, rgba(5,6,11,.20), rgba(5,6,11,.55)),
-        radial-gradient(circle at 0% 0%, rgba(124,58,237,.20), rgba(5,6,11,.55) 55%),
-        radial-gradient(circle at 100% 80%, rgba(91,33,182,.22), rgba(5,6,11,.65) 52%),
-        url("images/hero_placeholder.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat:no-repeat;
+        radial-gradient(circle at 15% 10%, rgba(167,139,250,.35), rgba(5,6,11,0) 55%),
+        radial-gradient(circle at 90% 80%, rgba(124,58,237,.45), rgba(5,6,11,0) 50%),
+        linear-gradient(135deg, rgba(5,6,11,.95), rgba(91,33,182,.42), rgba(5,6,11,.92));
       color:#fff;
       overflow:hidden;
       position:relative;
     }
+    .hero::after{
+      content:"";
+      position:absolute; inset:-20%;
+      background:
+        radial-gradient(circle at 40% 35%, rgba(255,255,255,.10), rgba(255,255,255,0) 55%),
+        radial-gradient(circle at 70% 55%, rgba(124,58,237,.20), rgba(124,58,237,0) 60%);
+      filter: blur(2px);
+      pointer-events:none;
+      opacity:.9;
+    }
+
     .hero-inner{
       max-width:var(--max);
       margin:0 auto;
-      padding:52px 18px 64px;
+      padding:56px 18px 44px;
       display:grid;
-      grid-template-columns: minmax(0, 2.3fr) minmax(0, 1.7fr);
-      gap:40px;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.9fr);
+      gap:24px;
       align-items:center;
       position:relative;
       z-index:1;
     }
     .hero-label{
       font-size:11px; letter-spacing:.34em; text-transform:uppercase;
-      opacity:.75; margin-bottom:14px;
+      opacity:.78; margin-bottom:14px;
     }
-    .hero-title-en{
-      font-size: clamp(28px, 3.9vw, 38px);
+    .hero-title{
+      font-size: clamp(28px, 3.9vw, 40px);
       font-weight: 900;
       letter-spacing:.14em;
       text-transform:uppercase;
-      line-height:1.25;
+      line-height:1.18;
     }
-    .hero-title-ja{
-      font-size:20px; font-weight:700;
+    .hero-sub{
       margin-top:10px;
+      font-size:16px;
+      font-weight:700;
+      opacity:.96;
+      letter-spacing:.02em;
     }
-    .hero-lead{
-      margin-top:14px;
-      padding-left:10px;
-      border-left:2px solid var(--accent);
-      font-size:13px;
-      line-height:1.95;
-      max-width:520px;
-      opacity:.92;
-    }
-    .hero-meta{
+    .pill-row{
       margin-top:18px;
-      font-size:12px; opacity:.82;
+      display:flex; flex-wrap:wrap; gap:10px;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      font-size:12px;
+      opacity:.96;
+      backdrop-filter: blur(8px);
     }
     .btn-row{
-      margin-top:22px;
+      margin-top:18px;
       display:flex; flex-wrap:wrap; gap:12px; align-items:center;
     }
     .btn-primary{
-      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
       border-radius:999px;
-      padding:11px 20px;
+      padding:12px 20px;
       font-size:12px;
-      font-weight:700;
+      font-weight:800;
       letter-spacing:.16em;
       text-transform:uppercase;
       border:none;
@@ -211,20 +193,21 @@
     .btn-primary span{ font-size:16px; transform:translateY(1px); }
     .btn-secondary{
       font-size:11px;
-      padding:9px 14px;
+      padding:10px 14px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.60);
       display:inline-flex; align-items:center; gap:8px;
       opacity:.92;
       white-space:nowrap;
     }
+
+    /* Right hero panel (visual, low text) */
     .hero-right{
       border-radius: 20px;
       overflow:hidden;
       background: rgba(15, 18, 30, .55);
       border:1px solid rgba(255,255,255,.10);
       box-shadow: 0 18px 40px rgba(0,0,0,.35);
-      min-height: 260px;
       position:relative;
     }
     .hero-right::before{
@@ -237,58 +220,53 @@
     }
     .hero-right-inner{
       position:relative;
-      padding:18px 18px 16px;
+      padding:18px;
       color:#fff;
-      font-size:12px;
-      display:flex;
-      flex-direction:column;
-      height:100%;
+      display:grid;
       gap:10px;
     }
-    .hero-right-head{
-      font-size:11px; letter-spacing:.20em; text-transform:uppercase;
-      opacity:.85;
+    .mini-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
     }
-    .hero-right-title{
-      font-size:16px; font-weight:800; line-height:1.55;
+    .mini{
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.20);
+      padding:12px 12px 10px;
+      display:grid; gap:6px;
+      min-height: 84px;
     }
-    .hero-right-note{
-      margin-top:2px;
-      font-size:11px;
-      opacity:.85;
-      line-height:1.7;
+    .mini .k{
+      font-size:10px; letter-spacing:.22em; text-transform:uppercase; opacity:.78;
     }
-    .hero-right-kpi{
-      margin-top:auto;
-      display:flex; flex-wrap:wrap; gap:8px;
+    .mini .v{
+      font-size:14px; font-weight:900; line-height:1.25;
     }
-    .pill{
-      display:inline-flex; align-items:center; gap:6px;
-      padding:5px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.22);
-      font-size:11px;
-      opacity:.95;
+    .mini .s{
+      font-size:11px; opacity:.86; line-height:1.55;
     }
-    .pill strong{ font-weight:900; }
 
-    /* ---------------- Quick Cards ---------------- */
+    /* ---------------- Sticky quick nav (compact, intuitive) ---------------- */
     .category-nav{
       background:#fff;
       border-bottom:1px solid #e1e1e4;
+      position:sticky;
+      top:var(--header);
+      z-index:900;
     }
     .category-inner{
       max-width:var(--max);
       margin:0 auto;
-      padding:16px 18px 22px;
+      padding:12px 18px 14px;
       display:grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap:14px;
+      gap:12px;
     }
     .cat-card{
       border-radius:14px;
-      padding:14px 14px 12px;
+      padding:12px 12px 10px;
       border:1px solid var(--border);
       background: linear-gradient(135deg, #ffffff, #fafafa);
       cursor:pointer;
@@ -298,46 +276,85 @@
       transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
     }
     .cat-card:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 10px 24px rgba(0,0,0,.12);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.10);
       border-color: var(--accent);
     }
     .cat-label{
       font-size:10px; letter-spacing:.26em; text-transform:uppercase;
       color: var(--accent2);
+      display:flex; align-items:center; gap:8px;
     }
-    .cat-title{ font-size:14px; font-weight:800; }
-    .cat-text{ font-size:11px; color:#555; line-height:1.7; }
-    .cat-link{
-      margin-top:4px;
-      font-size:11px;
-      text-align:right;
-      color: var(--accent2);
+    .cat-title{ font-size:13px; font-weight:900; }
+    .cat-hint{
+      font-size:11px; color:#666; line-height:1.2;
     }
 
     /* ---------------- Sections base ---------------- */
-    main section{ padding: 72px 18px 76px; }
+    main section{ padding: 64px 18px 72px; }
     .section-inner{ max-width:var(--max); margin:0 auto; }
     .section-label{
       font-size:11px; letter-spacing:.32em; text-transform:uppercase;
       color: var(--accent2);
       margin-bottom:10px;
     }
-    .section-title{ font-size:24px; font-weight:900; margin:0 0 8px; }
-    .section-title-sub{
-      font-size:12px; letter-spacing:.16em; text-transform:uppercase;
-      opacity:.62;
-      margin-bottom:22px;
-    }
-    .section-lead{
-      font-size:14px;
-      line-height:1.95;
-      max-width:760px;
-      color:#444;
-      margin:0 0 30px;
-    }
+    .section-title{ font-size:24px; font-weight:900; margin:0 0 10px; }
+    .section-sub{ font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:#6b7280; margin-bottom:18px; }
 
-    /* ---------------- Business Sections ---------------- */
+    /* WATCH section (bigger, premium) */
+    .watch-shell{
+      display:grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+      gap:18px;
+      align-items:start;
+    }
+    .embed{
+      border-radius: 18px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.10);
+      background:#000;
+      aspect-ratio: 16 / 9;
+      box-shadow: var(--shadow2);
+    }
+    .embed iframe{ width:100%; height:100%; border:0; display:block; }
+
+    .watch-side{
+      border-radius: 18px;
+      border:1px solid var(--border);
+      background: #fff;
+      box-shadow: var(--shadow);
+      padding:16px 16px 14px;
+      display:grid;
+      gap:10px;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      padding:6px 10px;
+      border:1px solid rgba(124,58,237,.22);
+      background: rgba(124,58,237,.06);
+      font-size:11px;
+      color: #4c1d95;
+      width: fit-content;
+    }
+    .watch-side h3{
+      margin:0;
+      font-size:14px;
+      font-weight:900;
+      letter-spacing:.02em;
+    }
+    .watch-side ul{
+      margin:0;
+      padding-left:1.15em;
+      line-height:1.85;
+      color:#555;
+      font-size:13px;
+    }
+    .watch-actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:4px; }
+
+    /* FEATURES tiles (dark, visual) */
     .sec-dark{
       background: var(--bg-dark);
       color:#fff;
@@ -350,114 +367,38 @@
       inset:-40%;
       background:
         radial-gradient(circle at 0% 0%, rgba(255,255,255,.08), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(124,58,237,.40), transparent 60%);
+        radial-gradient(circle at 100% 100%, rgba(124,58,237,.45), transparent 60%);
       opacity:.9;
     }
     .sec-dark .section-inner{ position:relative; z-index:1; }
     .sec-dark .section-label{ color: rgba(255,255,255,.72); }
-    .sec-dark .section-title{ color:#fff; }
-    .sec-dark .section-title-sub{ color: rgba(255,255,255,.70); opacity:1; }
-    .sec-dark .section-lead{ color: rgba(255,255,255,.86); }
-
-    .grid-2{
+    .sec-dark .section-sub{ color: rgba(255,255,255,.68); }
+    .tiles{
       display:grid;
-      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1.45fr);
-      gap:28px;
-      align-items:flex-start;
-    }
-    .panel{
-      border-radius: var(--radius);
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(12,14,22,.82);
-      padding:18px 18px 16px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.25);
-    }
-    .panel h3{
-      margin:0 0 10px;
-      font-size:14px;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      opacity:.92;
-    }
-    .list{
-      margin:0;
-      padding-left: 1.2em;
-      line-height:1.9;
-      color: rgba(255,255,255,.88);
-      font-size:13px;
-    }
-
-    /* Map block */
-    .map-wrap{
-      border-radius: var(--radius);
-      border:1px solid #e3e3ea;
-      background: linear-gradient(135deg, #ffffff, #f7f7fb);
-      padding: 14px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.06);
-    }
-    .map-head{
-      display:flex; align-items:center; justify-content:space-between;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap:12px;
-      margin-bottom:10px;
+      margin-top: 12px;
     }
-    .map-head .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:5px 10px;
-      border-radius:999px;
-      border:1px solid #e7e7ef;
-      background:#fff;
-      font-size:11px;
-      color:#444;
+    .tile{
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(12,14,22,.82);
+      padding:14px 14px 12px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+      display:grid; gap:8px;
+      min-height: 112px;
     }
-    .map-area{
-      border-radius: 14px;
-      overflow:hidden;
-      background:#0b1020;
-      border:1px solid rgba(124,58,237,.20);
-      position:relative;
-      aspect-ratio: 16 / 9;
-      min-height: 220px;
-    }
-    .map-area svg{
-      width:100%;
-      height:100%;
-      display:block;
-    }
-    .map-hint{
-      margin-top:10px;
-      font-size:12px;
-      color:#555;
-      line-height:1.8;
-    }
-    .map-legend{
-      display:flex; flex-wrap:wrap; gap:8px;
-      margin-top:10px;
-    }
-    .legend{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      font-size:11px;
-      color:#444;
-      background:#fff;
-      border:1px solid #e7e7ef;
-      border-radius:999px;
-      padding:5px 10px;
-    }
-    .dot{ width:10px; height:10px; border-radius:999px; display:inline-block; }
-    .lv0{ background:#cbd5e1; }
-    .lv1{ background:#a5b4fc; }
-    .lv2{ background:#8b5cf6; }
-    .lv3{ background:#7c3aed; }
+    .tile .icon{ font-size:18px; }
+    .tile .t{ font-size:13px; font-weight:900; letter-spacing:.02em; }
+    .tile .d{ font-size:11px; opacity:.86; line-height:1.5; }
 
-    /* Cards grid for detail pages preview */
+    /* PLAYLIST cards (minimal text) */
+    .sec-gray{ background: var(--bg-gray); }
     .cards{
       display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
+      grid-template-columns: repeat(4, minmax(0,1fr));
       gap:14px;
-      margin-top: 22px;
+      margin-top: 16px;
     }
     .card{
       border-radius: 16px;
@@ -466,7 +407,7 @@
       padding: 14px 14px 12px;
       box-shadow: 0 10px 24px rgba(0,0,0,.06);
       display:grid;
-      gap:6px;
+      gap:8px;
       cursor:pointer;
       transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
     }
@@ -483,64 +424,30 @@
       border:1px solid rgba(0,0,0,.06);
     }
     .thumb img{ width:100%; height:100%; object-fit:cover; }
-    .card .kicker{
+    .kicker{
       font-size:10px;
       letter-spacing:.22em;
       text-transform:uppercase;
       color: var(--accent2);
-      margin-top: 2px;
     }
-    .card .title{
+    .title{
       font-size:14px;
       font-weight:900;
-      line-height:1.45;
+      line-height:1.35;
     }
-    .card .desc{
-      font-size:12px;
-      color:#555;
-      line-height:1.75;
-    }
-    .card .cta{
-      margin-top:4px;
+    .cta{
+      margin-top:auto;
       font-size:11px;
       color: var(--accent2);
       text-align:right;
+      letter-spacing:.12em;
+      text-transform:uppercase;
     }
 
-    /* Light sections */
-    .sec-gray{ background: var(--bg-gray); }
-    .split{
-      display:grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.6fr);
-      gap: 26px;
-      align-items:flex-start;
-    }
-    .box{
-      border-radius: var(--radius);
-      border:1px solid var(--border);
-      background:#fff;
-      padding:18px 18px 16px;
-      box-shadow: 0 10px 24px rgba(0,0,0,.06);
-    }
-    .box h3{ margin:0 0 10px; font-size:14px; font-weight:900; }
-    .box p{ margin:0; color:#555; line-height:1.9; font-size:13px; }
-    .box ul{ margin:10px 0 0; padding-left:1.2em; color:#555; line-height:1.9; font-size:13px; }
-
-    /* YouTube embed */
-    .embed{
-      border-radius: 16px;
-      overflow:hidden;
-      border:1px solid rgba(0,0,0,.08);
-      background:#000;
-      aspect-ratio: 16 / 9;
-      min-height: 220px;
-    }
-    .embed iframe{ width:100%; height:100%; border:0; display:block; }
-
-    /* Work CTA */
+    /* CTA subscribe (bottom only) */
     .cta-wide{
       max-width: 820px;
-      margin: 26px auto 0;
+      margin: 14px auto 0;
       border-radius: 18px;
       background: #fff;
       border: 1px solid rgba(124,58,237,.30);
@@ -551,16 +458,16 @@
     .cta-wide .big{
       font-size:20px;
       font-weight:900;
-      margin:0 0 10px;
+      margin:0 0 8px;
     }
     .cta-wide .lead{
       margin:0 0 18px;
-      font-size:14px;
-      line-height:1.9;
+      font-size:13px;
+      line-height:1.8;
       color:#555;
     }
 
-    /* Footer */
+    /* Footer (keep theme) */
     footer{
       border-top:1px solid rgba(255,255,255,.08);
       background: rgba(5,6,11,1);
@@ -575,7 +482,6 @@
       flex-direction:column;
       gap:10px;
     }
-    /* 上段：中央揃え */
     .footer-row-top{
       display:flex;
       justify-content:center;
@@ -586,7 +492,6 @@
       width: auto;
       display:block;
     }
-    /* 下段：3分割固定（左/中央/右） */
     .footer-row-bottom{
       display:grid;
       grid-template-columns: 1fr auto 1fr;
@@ -598,12 +503,10 @@
     .footer-right{ justify-self:end; }
     .footer-links{ display:flex; gap:12px; }
 
-    
-
     /* Scroll animation */
     .scroll-fade{
       opacity:0;
-      transform: translateY(26px);
+      transform: translateY(22px);
       transition: opacity .7s ease-out, transform .7s ease-out;
     }
     .scroll-fade.is-visible{
@@ -611,63 +514,24 @@
       transform: translateY(0);
     }
 
-    /* Dialog */
-    dialog{
-      border:none;
-      border-radius: 16px;
-      width:min(620px, 92vw);
-      padding: 18px 18px 16px;
-    }
-    dialog::backdrop{ background: rgba(0,0,0,.38); }
-    .dlg-head{
-      display:flex; justify-content:space-between; align-items:flex-start; gap: 12px;
-    }
-    .dlg-head h3{ margin:0; font-size:16px; font-weight:900; }
-    .dlg-close{
-      border:1px solid #e7e7ef;
-      background:#fff;
-      border-radius: 10px;
-      padding: 8px 10px;
-      cursor:pointer;
-    }
-    .dlg-meta{
-      margin:6px 0 0;
-      font-size:12px;
-      color:#555;
-      line-height:1.8;
-    }
-    .dlg-links{
-      margin-top: 10px;
-      display:flex; flex-wrap:wrap; gap: 10px;
-      font-size:12px;
-    }
-    .dlg-links a{
-      border:1px solid #e7e7ef;
-      border-radius: 999px;
-      padding: 7px 12px;
-      background:#fff;
-    }
-
     /* Responsive */
     @media (max-width: 980px){
-      .hero-inner{ grid-template-columns: minmax(0, 1fr); gap: 24px; }
+      .hero-inner{ grid-template-columns: minmax(0, 1fr); gap: 18px; }
       .category-inner{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .grid-2, .split{ grid-template-columns: minmax(0,1fr); }
+      .tiles{ grid-template-columns: repeat(2, minmax(0,1fr)); }
       .cards{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-    }
-    @media (max-width: 720px){
-      nav.nav{ display:none; }
-      .nav-toggle{ display:flex; }
-      main section{ padding: 62px 16px 66px; }
-      .hero-inner{ padding: 44px 16px 56px; }
+      .mini-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .watch-shell{ grid-template-columns: minmax(0,1fr); }
     }
     @media (max-width: 520px){
+      main section{ padding: 58px 16px 64px; }
+      .hero-inner{ padding: 48px 16px 38px; }
+      .category-inner{ grid-template-columns: minmax(0,1fr); }
+      .tiles{ grid-template-columns: minmax(0,1fr); }
       .cards{ grid-template-columns: minmax(0,1fr); }
-      .hero-title-ja{ font-size: 18px; }
-      .hero-title-en{ font-size: 24px; }
+      .pill{ font-size:11px; }
     }
 
-    /* Accessibility */
     .visually-hidden{
       position:absolute !important;
       height:1px; width:1px;
@@ -675,163 +539,272 @@
       clip: rect(1px,1px,1px,1px);
       white-space:nowrap;
     }
-  </style>
+  
+    /* Thumbnail fallback when image missing */
+    .thumb{ position:relative; }
+    .thumb.noimg{
+      background:
+        radial-gradient(circle at 20% 20%, rgba(167,139,250,.22), rgba(0,0,0,0) 55%),
+        linear-gradient(135deg, rgba(5,6,11,.92), rgba(91,33,182,.35), rgba(5,6,11,.92));
+    }
+    
+    
+</style>
 </head>
-<body>
+
+<body class="lang-ja">
+
 <header class="header">
-  <div class="header-inner" style="justify-content:flex-end;">
-    <a href="index.html" style="
-      border:1px solid rgba(255,255,255,.6);
-      padding:10px 18px;
-      border-radius:999px;
-      text-decoration:none;
-      font-size:12px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-    ">Return</a>
+  <div class="header-inner">
+    <div class="lang-switch" aria-label="Language switch">
+      <button class="lang-btn" type="button" data-set-lang="ja" aria-label="日本語">
+        <img class="flag" src="images/flags/jp.png" alt="日本語" onerror="this.style.display='none'; this.parentElement.classList.add('noimg');">
+      </button>
+      <button class="lang-btn" type="button" data-set-lang="en" aria-label="English">
+        <img class="flag" src="images/flags/us.png" alt="English" onerror="this.style.display='none'; this.parentElement.classList.add('noimg');">
+      </button>
+    </div>
+
+    <a class="return-link" href="index.html">Return</a>
   </div>
 </header>
-<main>
-<section id="activity">
-      <div class="section-inner scroll-fade">
-        <div class="section-label">ACTIVITY BUSINESS</div>
-        <h2 class="section-title">アクティビティ事業</h2>
-        <div class="section-title-sub">marine dive / sky dive / swim (abstract)</div>
-        <p class="section-lead">
-          マリンダイブ、スカイダイブ、競泳の記録（身バレ対策のため時期や正確タイムは非公開）など、
-          “体験”を軸にコンテンツを増やします。<br>
-          ここもカードリンクで統一し、どのジャンルでもサイトの雰囲気が崩れないようにします。
-        </p>
 
-        <div class="cards" aria-label="activity cards">
-          <article class="card" onclick="location.href='activities/diving.html'">
-            <div class="thumb"><img src="images/dive_thumb.jpg" alt="マリンダイブのサムネイル"></div>
-            <div class="kicker">activity</div>
-            <div class="title">マリンダイブ</div>
-            <div class="desc">ポイント・装備・気づき・写真。動画があれば埋め込み。</div>
-            <div class="cta">DETAIL →</div>
-          </article>
-          <article class="card" onclick="location.href='activities/skydiving.html'">
-            <div class="thumb"><img src="images/sky_thumb.jpg" alt="スカイダイブのサムネイル"></div>
-            <div class="kicker">activity</div>
-            <div class="title">スカイダイブ</div>
-            <div class="desc">場所はぼかしつつ、体験の解像度を残す。</div>
-            <div class="cta">DETAIL →</div>
-          </article>
-          <article class="card" onclick="location.href='activities/swim.html'">
-            <div class="thumb"><img src="images/swim_thumb.jpg" alt="競泳のサムネイル"></div>
-            <div class="kicker">activity</div>
-            <div class="title">競泳ログ（抽象化）</div>
-            <div class="desc">「練習哲学」や改善メモ中心で安全に。</div>
-            <div class="cta">DETAIL →</div>
-          </article>
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <div class="scroll-fade">
+      <div class="hero-label">NAGARA TRIVIA CHANNEL</div>
+      <div class="hero-title">NAGARA TRIVIA</div>
+
+      <div class="hero-sub" data-lang="ja">“ナレーション設計” な、ながら雑学。</div>
+      <div class="hero-sub" data-lang="en">Trivia designed for listening — hands-free, eyes-free.</div>
+
+      <div class="pill-row" aria-label="channel highlights">
+        <span class="pill">🎧 <span data-lang-inline="ja">音声だけで理解</span><span data-lang-inline="en">Audio-first</span></span>
+        <span class="pill">⏱ <span data-lang-inline="ja">音優先編集でサクッと</span><span data-lang-inline="en">Bite-sized</span></span>
+        <span class="pill">🧠 <span data-lang-inline="ja">“ちょい賢い” を毎日</span><span data-lang-inline="en">Daily learning</span></span>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn-primary" href="#watch"><span>▶</span><span data-lang-inline="ja">おすすめ1本</span><span data-lang-inline="en">Featured</span></a>
+        <a class="btn-secondary" href="https://www.youtube.com/@nagara_zatsugaku-a" target="_blank" rel="noopener">YouTube →</a>
+        <a class="btn-secondary" href="#playlists"><span data-lang-inline="ja">ジャンル</span><span data-lang-inline="en">Playlists</span> →</a>
+      </div>
+    </div>
+
+    <aside class="hero-right scroll-fade" aria-label="quick guide">
+      <div class="hero-right-inner">
+        <div class="mini-grid">
+          <div class="mini">
+            <div class="k" data-lang="ja">使い方</div><div class="k" data-lang="en">How</div>
+            <div class="v" data-lang="ja">流す</div><div class="v" data-lang="en">Play</div>
+            <div class="s" data-lang="ja">画面は見なくてOK</div><div class="s" data-lang="en">No need to watch</div>
+          </div>
+          <div class="mini">
+            <div class="k" data-lang="ja">シーン</div><div class="k" data-lang="en">Scenes</div>
+            <div class="v" data-lang="ja">通勤/家事</div><div class="v" data-lang="en">Commute</div>
+            <div class="s" data-lang="ja">ながらに最適</div><div class="s" data-lang="en">Multitask-ready</div>
+          </div>
+          <div class="mini">
+            <div class="k" data-lang="ja">テンポ</div><div class="k" data-lang="en">Tempo</div>
+            <div class="v" data-lang="ja">音優先編集</div><div class="v" data-lang="en">Short</div>
+            <div class="s" data-lang="ja">スキマ時間向け</div><div class="s" data-lang="en">Fits gaps</div>
+          </div>
+          <div class="mini">
+            <div class="k" data-lang="ja">次</div><div class="k" data-lang="en">Next</div>
+            <div class="v" data-lang="ja">登録</div><div class="v" data-lang="en">Subscribe</div>
+            <div class="s" data-lang="ja">更新を追う</div><div class="s" data-lang="en">Follow updates</div>
+          </div>
         </div>
       </div>
-    </section>
-</main>
-<footer>
-    <div class="footer-inner">
-      <!-- 上段：画像 -->
-      <div class="footer-row footer-row-top">
-        <a href="index.html" aria-label="HOMEへ（フッターロゴ）" style="display:inline-block;"><img src="images/top2.png" alt="HEIHEY" class="footer-logo"></a>
+    </aside>
+  </div>
+</section>
+
+
+
+<main>
+
+  <!-- WATCH (moved up, not inside hero) -->
+  <section id="watch">
+    <div class="section-inner scroll-fade">
+      <div class="section-label">WATCH</div>
+      <h2 class="section-title" data-lang="ja">おすすめの1本</h2>
+      <h2 class="section-title" data-lang="en">Featured video</h2>
+      <div class="watch-shell">
+        <div class="embed" aria-label="youtube embed">
+          <iframe
+            src="https://www.youtube.com/embed/AEu9B41bZyY?rel=0&modestbranding=1"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        
       </div>
-      <!-- 下段：3分割 -->
-      <div class="footer-row footer-row-bottom">
-        <div class="footer-left">© HEIHEY PORTAL</div>
-        <div class="footer-center footer-links"><a href="#top">TOP</a></div>
-        <div class="footer-right" style="opacity:.78;">
-          Last update: <span id="lastUpdate"></span>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="about" class="sec-dark">
+    <div class="section-inner scroll-fade">
+      <div class="section-label">FEATURES</div>
+      <h2 class="section-title" data-lang="ja">読む量を減らして、理解を速く。</h2>
+      <h2 class="section-title" data-lang="en">Less text. Faster understanding.</h2>
+      <div class="tiles" aria-label="feature tiles">
+        <div class="tile">
+          <div class="icon">🎧</div>
+          <div class="t" data-lang="ja">ナレーション設計</div>
+          <div class="t" data-lang="en">Audio-first</div>
+          <div class="d" data-lang="ja">聞き疲れしない音量・速度</div>
+          <div class="d" data-lang="en">Works without watching</div>
+        </div>
+        <div class="tile">
+          <div class="icon">⏱</div>
+          <div class="t" data-lang="ja">音優先編集</div>
+          <div class="t" data-lang="en">Bite-sized</div>
+          <div class="d" data-lang="ja">画面を見なくても成立</div>
+          <div class="d" data-lang="en">Fits your gaps</div>
+        </div>
+        <div class="tile">
+          <div class="icon">🧠</div>
+          <div class="t" data-lang="ja">情報圧縮</div>
+          <div class="t" data-lang="en">Simple</div>
+          <div class="d" data-lang="ja">ムダ説明を排除</div>
+          <div class="d" data-lang="en">Less jargon</div>
+        </div>
+        <div class="tile">
+          <div class="icon">🔁</div>
+          <div class="t" data-lang="ja">連続視聴設計</div>
+          <div class="t" data-lang="en">Loopable</div>
+          <div class="d" data-lang="ja">ショートでも流しっぱなし可能</div>
+          <div class="d" data-lang="en">Great as BGM</div>
         </div>
       </div>
     </div>
-  </footer>
+  </section>
+
+  <!-- PLAYLISTS -->
+  <section id="playlists" class="sec-gray">
+    <div class="section-inner scroll-fade">
+      <div class="section-label">PLAYLISTS</div>
+      <h2 class="section-title" data-lang="ja">ジャンルで選ぶ</h2>
+      <h2 class="section-title" data-lang="en">Choose a playlist</h2>
+      <div class="cards" aria-label="playlist cards">
+        <article class="card" onclick="window.open('https://www.youtube.com/playlist?list=PL66jSlgB0ywWvHvQPOSjm51803ma2MN8L', '_blank')">
+          <div class="thumb"><img src="images/04_nagara/01.png" alt="Date trivia playlist thumbnail" onerror="this.style.display='none'; this.parentElement.classList.add('noimg');"></div>
+          <div class="kicker">playlist</div>
+          <div class="title" data-lang="ja">📅 日付雑学</div>
+          <div class="title" data-lang="en">📅 Date trivia</div>
+          <div class="cta">OPEN →</div>
+        </article>
+
+        <article class="card" onclick="window.open('https://www.youtube.com/playlist?list=PL66jSlgB0ywXczVUlfGKbnv5wIrXPKpNY', '_blank')">
+          <div class="thumb"><img src="images/04_nagara/02.png" alt="Space trivia playlist thumbnail" onerror="this.style.display='none'; this.parentElement.classList.add('noimg');"></div>
+          <div class="kicker">playlist</div>
+          <div class="title" data-lang="ja">🌌 宇宙雑学</div>
+          <div class="title" data-lang="en">🌌 Space trivia</div>
+          <div class="cta">OPEN →</div>
+        </article>
+
+        <article class="card" onclick="window.open('https://www.youtube.com/@nagara_zatsugaku-a/search?query=%E4%BA%BA%E4%BD%93', '_blank')">
+          <div class="thumb"><img src="images/04_nagara/03.png" alt="Body trivia (channel search) thumbnail" onerror="this.style.display='none'; this.parentElement.classList.add('noimg');"></div>
+          <div class="kicker">channel</div>
+          <div class="title" data-lang="ja">🧠 人体・脳雑学</div>
+          <div class="title" data-lang="en">🧠 Body & brain trivia</div>
+          <div class="cta">OPEN →</div>
+        </article>
+
+        <article class="card" onclick="window.open('https://www.youtube.com/@nagara_zatsugaku-a/search?query=%E4%B8%96%E7%95%8C', '_blank')">
+          <div class="thumb"><img src="images/04_nagara/04.png" alt="World trivia (channel search) thumbnail" onerror="this.style.display='none'; this.parentElement.classList.add('noimg');"></div>
+          <div class="kicker">channel</div>
+          <div class="title" data-lang="ja">🌍 世界・文化雑学</div>
+          <div class="title" data-lang="en">🌍 World & culture trivia</div>
+          <div class="cta">OPEN →</div>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SUBSCRIBE -->
+  <section id="subscribe" class="sec-gray">
+  <div class="section-inner scroll-fade">
+    <div class="section-label">SUBSCRIBE</div>
+
+    <h2 class="section-title" data-lang="ja">ながら習慣に。</h2>
+    <h2 class="section-title" data-lang="en">Make it part of your routine.</h2>
+
+    <div class="cta-wide">
+      <p class="big" data-lang="ja">短い雑学を毎日。<br>流しやすく、続けやすい。</p>
+      <p class="big" data-lang="en">New short trivia.<br>Easy to listen, easy to keep.</p>
+
+      <a class="btn-primary" href="https://www.youtube.com/@nagara_zatsugaku-a" target="_blank" rel="noopener">
+        ★ Subscribe
+      </a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-row footer-row-top">
+      <a href="index.html" aria-label="HOMEへ（フッターロゴ）" style="display:inline-block;">
+        <img src="images/top2.png" alt="HEIHEY" class="footer-logo" onerror="this.style.display='none'; this.parentElement.classList.add('noimg');">
+      </a>
+    </div>
+    <div class="footer-row footer-row-bottom">
+      <div class="footer-left">© HEIHEY PORTAL</div>
+      <div class="footer-center footer-links"><a href="#top">TOP</a></div>
+      <div class="footer-right" style="opacity:.78;">
+        Last update: <span id="lastUpdate"></span>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script>
-    // --- Mobile nav ---
-    const navToggle = document.getElementById("navToggle");
-    const navSp = document.getElementById("navSp");
-    navToggle?.addEventListener("click", () => {
-      const isOpen = document.body.classList.toggle("nav-open");
-      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    });
-    navSp?.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
-      document.body.classList.remove("nav-open");
-      navToggle.setAttribute("aria-expanded", "false");
-    }));
-
-    // --- Scroll fade-in ---
-    const scrollEls = document.querySelectorAll(".scroll-fade");
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add("is-visible");
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.18 });
-    scrollEls.forEach(el => obs.observe(el));
-
-    // --- Footer date ---
-    const d = new Date();
-    document.getElementById("lastUpdate").textContent = d.toISOString().slice(0,10);
-
-    // --- Experience map: demo markers -> modal ---
-    const EXP = {
-      "c-japan": {
-        title: "Japan（Lv2）",
-        body: "滞在：旅行ログ・アクティビティ・制作などを紐づけて拡張。",
-        links: [
-          { label:"日本版：経県値", url:"experience/jp.html" },
-          { label:"旅行ログ", url:"experience/notes.html" }
-        ]
-      },
-      "c-finland": {
-        title: "Finland（Lv2）",
-        body: "滞在：北欧での気づき・文化・街歩きメモなど。",
-        links: [
-          { label:"世界版：フィンランド", url:"experience/world.html#finland" },
-          { label:"Note（関連）", url:"note.html" }
-        ]
-      },
-      "c-usa": {
-        title: "USA（Lv1）",
-        body: "通過/短期：詳細は必要最低限に。身バレのため時期は非公開。",
-        links: [
-          { label:"世界版：USA", url:"experience/world.html#usa" }
-        ]
+  // Scroll fade-in
+  const scrollEls = document.querySelectorAll(".scroll-fade");
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add("is-visible");
+        obs.unobserve(entry.target);
       }
-    };
-
-    const modal = document.getElementById("expModal");
-    const mTitle = document.getElementById("mTitle");
-    const mBody  = document.getElementById("mBody");
-    const mLinks = document.getElementById("mLinks");
-    document.getElementById("mClose")?.addEventListener("click", () => modal.close());
-
-    function openExp(id){
-      const data = EXP[id];
-      if(!data) return;
-      mTitle.textContent = data.title;
-      mBody.textContent  = data.body;
-      mLinks.innerHTML   = (data.links||[]).map(l => `<a href="${l.url}">${l.label} →</a>`).join("");
-      modal.showModal();
-    }
-
-    Object.keys(EXP).forEach(id => {
-      const el = document.getElementById(id);
-      if(!el) return;
-      el.style.cursor = "pointer";
-      el.addEventListener("click", () => openExp(id));
-      el.addEventListener("keydown", (e) => {
-        if(e.key === "Enter" || e.key === " ") openExp(id);
-      });
-      el.setAttribute("tabindex", "0");
-      el.setAttribute("role", "button");
-      el.setAttribute("aria-label", "Open " + (EXP[id]?.title || id));
     });
-  </script>
+  }, { threshold: 0.18 });
+  scrollEls.forEach(el => obs.observe(el));
+
+  // Footer date
+  const d = new Date();
+  const last = document.getElementById("lastUpdate");
+  if(last) last.textContent = d.toISOString().slice(0,10);
+
+  // Language switch (matching index.html behavior)
+  const preferred = (() => {
+    const saved = localStorage.getItem("lang");
+    if (saved === "ja" || saved === "en") return saved;
+    const nav = (navigator.language || "").toLowerCase();
+    return nav.startsWith("ja") ? "ja" : "en";
+  })();
+
+  function applyLang(lang){
+    const l = (lang === "ja") ? "ja" : "en";
+    document.body.classList.toggle("lang-ja", l === "ja");
+    document.body.classList.toggle("lang-en", l === "en");
+    document.documentElement.setAttribute("lang", l);
+    localStorage.setItem("lang", l);
+  }
+
+  document.querySelectorAll('[data-set-lang]').forEach(btn => {
+    btn.addEventListener("click", () => applyLang(btn.getAttribute("data-set-lang")));
+  });
+
+  applyLang(preferred);
+</script>
+
 </body>
 </html>
