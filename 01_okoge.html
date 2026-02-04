@@ -1576,11 +1576,9 @@
 
   <div class="header-inner">
     <div class="lang-switch" aria-label="Language switch">
-      <button class="lang-btn" type="button" data-set-lang="ja" aria-label="日本語">
-        <img class="flag" src="images/flags/jp.png" alt="日本語">
-      </button>
-      <button class="lang-btn" type="button" data-set-lang="en" aria-label="English">
-        <img class="flag" src="images/flags/us.png" alt="English">
+      <!-- Single toggle: shows the OTHER language flag -->
+      <button class="lang-btn" type="button" id="langToggle" aria-label="Switch language">
+        <img class="flag" id="langToggleIcon" src="images/flags/us.png" alt="English">
       </button>
     </div>
 
@@ -1896,17 +1894,33 @@ Every day is a tiny bit different.</p>
 <script>
   (function(){
     const KEY = "heihey_lang";
-    const buttons = document.querySelectorAll("[data-set-lang]");
+    const toggleBtn = document.getElementById("langToggle");
+    const icon = document.getElementById("langToggleIcon");
+
     function applyLang(lang){
+      const isEn = (lang === "en");
       document.body.classList.remove("lang-ja","lang-en");
-      document.body.classList.add(lang === "en" ? "lang-en" : "lang-ja");
-      localStorage.setItem(KEY, lang === "en" ? "en" : "ja");
+      document.body.classList.add(isEn ? "lang-en" : "lang-ja");
+      localStorage.setItem(KEY, isEn ? "en" : "ja");
+
+      // Button shows the OTHER language flag
+      if(icon){
+        icon.src = isEn ? "images/flags/jp.png" : "images/flags/us.png";
+        icon.alt = isEn ? "日本語" : "English";
+      }
+      if(toggleBtn){
+        toggleBtn.setAttribute("aria-label", isEn ? "Switch to Japanese" : "Switch to English");
+      }
+
       window.dispatchEvent(new Event("langchange"));
     }
+
     const saved = localStorage.getItem(KEY);
-    applyLang(saved || "ja");
-    buttons.forEach(btn=>{
-      btn.addEventListener("click", ()=> applyLang(btn.getAttribute("data-set-lang")));
+    applyLang(saved === "en" ? "en" : "ja");
+
+    toggleBtn?.addEventListener("click", () => {
+      const nowEn = document.body.classList.contains("lang-en");
+      applyLang(nowEn ? "ja" : "en");
     });
   })();
 </script>
