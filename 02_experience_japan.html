@@ -668,7 +668,15 @@
       .hero-inner{ padding: 44px 16px 56px; }
     }
     @media (max-width: 520px){
-      .cards{ grid-template-columns: minmax(0,1fr); }
+      .cards{ grid-template-columns: minmax(0,1fr); 
+  .map-wrap{ padding:10px; }
+  .map-head{ flex-wrap:wrap; }
+  .map-head .badge{
+    max-width:100%;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+}
       .hero-title-ja{ font-size: 18px; }
       .hero-title-en{ font-size: 24px; }
     }
@@ -852,6 +860,37 @@
 /* --- Japan map fit: center + keep whole Japan visible --- */
 .map-area{ position: relative; display:flex; align-items:center; justify-content:center; }
 #japanMap{ width:100%; height:100%; }
+#japanMap svg{
+  width:100% !important;
+  height:100% !important;
+  max-width:100% !important;
+  max-height:100% !important;
+  display:block;
+}
+
+
+/* ==== Mobile map overflow FIX ==== */
+html, body{ overflow-x:hidden; }
+
+.map-wrap{
+  max-width:100%;
+  overflow:hidden;
+}
+
+.map-area{
+  width:100%;
+  max-width:100%;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+#japanMap{
+  width:100%;
+  max-width:100%;
+}
+
 #japanMap svg{
   width:100% !important;
   height:100% !important;
