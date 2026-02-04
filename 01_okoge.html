@@ -675,12 +675,14 @@
       clip: rect(1px,1px,1px,1px);
       white-space:nowrap;
     }
-  </style>
-</head>
-<body>
-<header class="header">
-  <div class="header-inner" style="justify-content:flex-end;">
-    <a href="index.html" style="
+  
+    /* ---------------- i18n ---------------- */
+    [data-lang]{ display:none; }
+    body.lang-ja [data-lang="ja"]{ display:block; }
+    body.lang-en [data-lang="en"]{ display:block; }
+
+    /* header buttons */
+    .return-btn{
       border:1px solid rgba(255,255,255,.6);
       padding:10px 18px;
       border-radius:999px;
@@ -691,71 +693,1103 @@
       display:inline-flex;
       align-items:center;
       justify-content:center;
-    ">Return</a>
+      opacity:.95;
+      transition:transform .18s ease, opacity .18s ease, border-color .18s ease;
+    }
+    .return-btn:hover{ transform:translateY(-1px); opacity:1; border-color:rgba(167,139,250,.9); }
+
+    .lang-switch{ display:flex; gap:8px; align-items:center; }
+    .lang-btn{
+      width:34px; height:34px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.06);
+      display:grid; place-items:center;
+      cursor:pointer;
+      opacity:.92;
+      transition:transform .18s ease, opacity .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .lang-btn:hover{ transform:translateY(-1px); opacity:1; border-color:rgba(167,139,250,.55); background: rgba(167,139,250,.10); }
+    .lang-btn .flag{ width:18px; height:18px; border-radius:999px; object-fit:cover; }
+    body.lang-ja .lang-btn[data-set-lang="ja"],
+    body.lang-en .lang-btn[data-set-lang="en"]{
+      border-color: rgba(167,139,250,.65);
+      background: rgba(167,139,250,.14);
+      opacity:1;
+    }
+
+    /* ---------------- OKOGE cute layout ---------------- */
+    :root{
+      --milk:#fffdf8;
+      --cream:#fbf3ff;
+      --pink:#fff0f6;
+      --soft:#f7f2ff;
+    }
+
+    .hero-photo{
+      margin-top: calc(var(--header) + 18px);
+      padding: 22px 18px 0;
+    }
+    .hero-photo-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,.12);
+      position: relative;
+      background: linear-gradient(135deg, rgba(255,240,246,.75), rgba(251,243,255,.7), rgba(255,253,248,.85));
+      border: 1px solid rgba(124,58,237,.10);
+      min-height: 320px;
+    }
+    .hero-photo-inner img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .hero-overlay{
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, rgba(5,6,11,.10), rgba(5,6,11,.02) 60%, rgba(5,6,11,.06));
+    }
+        .badge-soft{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      width:fit-content;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.55);
+      background: rgba(255,255,255,.20);
+      backdrop-filter: blur(10px);
+      color: rgba(5,6,11,.85);
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform: uppercase;
+    }
+    .hero-title{
+      margin:0;
+      font-size: 34px;
+      line-height:1.05;
+      letter-spacing:.02em;
+      color: rgba(5,6,11,.92);
+      text-shadow: 0 8px 22px rgba(255,255,255,.25);
+    }
+    .hero-sub{
+      margin:0;
+      color: rgba(5,6,11,.70);
+      font-size: 14px;
+      line-height:1.6;
+      background: rgba(255,255,255,.22);
+      border:1px solid rgba(255,255,255,.45);
+      padding: 10px 12px;
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .okoge-wrap{ padding: 26px 0 10px; background: var(--milk); }
+    .section-inner.tight{ padding-top: 10px; }
+
+    .diary-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-top: 16px;
+    }
+    @media (max-width: 900px){
+      .diary-grid{ grid-template-columns: 1fr; }
+    }
+
+    .profile-card{
+      width:100%;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(251,243,255,.85), rgba(255,240,246,.80), rgba(255,253,248,.92));
+      border: 1px solid rgba(124,58,237,.10);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 220px;
+    }
+    @media (max-width: 520px){
+      .profile-card{ grid-template-columns: 1fr 1fr; }
+    }
+    .profile-photo{
+      background: rgba(0,0,0,.05);
+      min-height: 260px;
+      position:relative;
+    }
+    .profile-photo img{ width:100%; height:100%; object-fit:cover; }
+    .profile-body{ padding: 18px 18px 16px; display:flex; flex-direction:column; gap:10px; }
+    .profile-name{
+      font-weight: 900;
+      letter-spacing:.04em;
+      font-size: 18px;
+      color: rgba(5,6,11,.88);
+      display:flex; align-items:center; gap:10px;
+    }
+    .profile-lines{
+      margin:0;
+      color: rgba(5,6,11,.72);
+      line-height:1.75;
+      font-size: 14px;
+      white-space: pre-line;
+    }
+    .stamp{
+      width: 32px; height: 32px;
+      border-radius: 999px;
+      background: rgba(124,58,237,.14);
+      border: 1px solid rgba(124,58,237,.22);
+      display:grid; place-items:center;
+      font-size: 16px;
+    }
+
+    .photo-strip{
+      border-radius: 24px;
+      background: #fff;
+      border: 1px solid rgba(124,58,237,.08);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      overflow:hidden;
+    }
+    .strip-title{
+      display:flex; align-items:baseline; justify-content:space-between;
+      gap:10px;
+      margin: 2px 4px 10px;
+    }
+    .strip-title h3{ margin:0; font-size: 14px; letter-spacing:.18em; text-transform:uppercase; color: rgba(5,6,11,.62); }
+    .strip-title span{ font-size:12px; color: rgba(5,6,11,.45); }
+
+    .strip-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 10px;
+    }
+    @media (max-width: 520px){
+      .strip-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    .strip-grid a{
+      border-radius: 18px;
+      overflow:hidden;
+      display:block;
+      position:relative;
+      background: rgba(0,0,0,.04);
+      border: 1px solid rgba(124,58,237,.08);
+      aspect-ratio: 1 / 1;
+    }
+    .strip-grid img{ width:100%; height:100%; object-fit:cover; transition: transform .28s ease; }
+    .strip-grid a:hover img{ transform: scale(1.05); }
+
+    .video-card{
+      border-radius: 24px;
+      background: #fff;
+      border: 1px solid rgba(124,58,237,.10);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .video-head{
+      padding: 14px 16px 0;
+      display:flex; align-items:baseline; justify-content:space-between;
+      gap:12px;
+    }
+    .video-head h3{ margin:0; font-size: 14px; letter-spacing:.18em; text-transform:uppercase; color: rgba(5,6,11,.62); }
+    .video-head .note{ font-size:12px; color: rgba(5,6,11,.45); }
+    .video-frame{
+      margin: 12px 14px 14px;
+      border-radius: 18px;
+      overflow:hidden;
+      border: 1px solid rgba(0,0,0,.06);
+      aspect-ratio: 16 / 9;
+      background: rgba(0,0,0,.05);
+    }
+    .video-frame iframe{ width:100%; height:100%; border:0; display:block; }
+
+    .goal-card{
+      margin-top: 18px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255,240,246,.85), rgba(251,243,255,.80), rgba(255,253,248,.92));
+      border: 1px solid rgba(124,58,237,.10);
+      box-shadow: var(--shadow);
+      padding: 16px 16px 14px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    /* ---- Goal card button layout fix ---- */
+    .goal-card{
+      align-items:flex-start;
+    }
+    /* ---- Button size to content (not full width) ---- */
+    .goal-card .btn-soft{
+      width: auto !important;
+      flex-basis: auto !important;
+      padding: 10px 18px !important;
+    }
+
+
+    .goal-card .btn-soft{
+      order: 3;
+      flex-basis: 100%;
+      margin-top: 14px;
+      align-self: flex-start;
+    }
+
+    @media (min-width: 900px){
+      .goal-card{
+        flex-wrap: wrap;
+      }
+    }
+
+    .goal-title{
+      display:flex; flex-direction:column; gap:6px;
+      min-width: 220px;
+    }
+    .goal-title .k{ font-size:12px; letter-spacing:.18em; text-transform:uppercase; color: rgba(5,6,11,.55); }
+    .goal-title .t{ font-size:16px; font-weight:900; color: rgba(5,6,11,.86); }
+    .goal-title .s{ font-size:13px; color: rgba(5,6,11,.62); line-height:1.6; }
+    .progress{
+      flex:1;
+      min-width: 220px;
+      display:flex; flex-direction:column; gap:8px;
+    }
+
+    .progress-top{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .progress-amount{
+      font-size:14px;
+      font-weight:900;
+      color: rgba(5,6,11,.78);
+      display:flex;
+      align-items:baseline;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .progress-meta{
+      display:flex;
+      justify-content:flex-end;
+      font-size:11px;
+      color: rgba(5,6,11,.46);
+      white-space:nowrap;
+      gap:10px;
+    }
+    .progress-meta .rate{ display:block; }
+
+    .progress progress{
+      width:100%;
+      height:12px;
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid rgba(124,58,237,.10);
+      background: transparent;
+      margin-top: 2px;
+    }
+    progress::-webkit-progress-bar{
+      background: rgba(5,6,11,.06);
+      border-radius:999px;
+    }
+    progress::-webkit-progress-value{
+      background: linear-gradient(90deg, rgba(124,58,237,.55), rgba(236,72,153,.45));
+      border-radius:999px;
+    }
+    progress::-moz-progress-bar{
+      background: linear-gradient(90deg, rgba(124,58,237,.55), rgba(236,72,153,.45));
+      border-radius:999px;
+    }
+
+    .goal-remaining{
+      margin-top: 6px;
+      font-size:14px;
+      font-weight:800;
+      color: rgba(5,6,11,.78);
+      line-height:1.4;
+    }
+    /* ---- Goal i18n (prevent generic layout rules from overriding [data-lang]) ---- */
+    .progress-amount .amt,
+    .progress-meta .rate,
+    .goal-remaining > span{
+      display:none;
+    }
+    body.lang-ja .progress-amount .amt[data-lang="ja"],
+    body.lang-ja .progress-meta .rate[data-lang="ja"],
+    body.lang-ja .goal-remaining > span[data-lang="ja"]{
+      display:inline;
+    }
+    body.lang-en .progress-amount .amt[data-lang="en"],
+    body.lang-en .progress-meta .rate[data-lang="en"],
+    body.lang-en .goal-remaining > span[data-lang="en"]{
+      display:inline;
+    }
+
+    .bar{
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(5,6,11,.06);
+      overflow:hidden;
+      border: 1px solid rgba(124,58,237,.10);
+    }
+    .bar > i{
+      display:block;
+      height:100%;
+      width: 34%;
+      background: linear-gradient(90deg, rgba(124,58,237,.55), rgba(236,72,153,.45));
+      border-radius: 999px;
+    }
+    .progress .pnote{ font-size:12px; color: rgba(5,6,11,.50); }
+
+    .btn-soft{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(124,58,237,.22);
+      background: rgba(124,58,237,.10);
+      color: rgba(5,6,11,.82);
+      font-size: 12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .btn-soft:hover{ transform: translateY(-1px); background: rgba(124,58,237,.14); border-color: rgba(124,58,237,.28); }
+
+
+    
+    /* -------- Split header like 04 + photo left only -------- */
+    header.header{
+      background: linear-gradient(180deg, #0c0f17, #0b0e14); /* same tone as 04 */
+    }
+
+    .header-split{
+      position:fixed; inset:0 0 auto 0;
+      height:var(--header);
+      overflow:hidden;
+    }
+
+    .header-photo-left{
+      position:absolute;
+      left:0; top:0;
+      height:100%;
+      width:65%; /* photo only on left portion */
+      overflow:hidden;
+      z-index:1;
+    }
+
+    .header-photo-left img{
+      width:100%; height:100%;
+      object-fit:cover;
+      transform:scale(1.03);
+      filter:saturate(1.05) contrast(1.02);
+    }
+
+    /* Fade only on right 25% of the image */
+    .header-photo-left .header-fade{
+      position:absolute;
+      top:0; right:0;
+      height:100%;
+      width:25%;
+      background: linear-gradient(90deg,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,.2) 40%,
+        rgba(0,0,0,.6) 75%,
+        rgba(0,0,0,.95) 100%);
+    }
+
+    .header-inner{
+      position:relative;
+      z-index:2;
+    }
+
+
+    /* ---- Header inner alignment EXACTLY like 04 ---- */
+    .header-inner{
+      width:100%;
+      max-width:var(--max);
+      margin:0 auto;
+      padding:0 18px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-end; /* everything right */
+      gap:12px;
+      height:100%;
+    }
+
+    .lang-switch{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .return-link{
+      height:40px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 18px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+
+/* ---- FORCE header UI to match 04_nagara ---- */
+    header.header{
+      height: var(--header) !important;
+      display:flex !important;
+      align-items:center !important;
+      justify-content:center !important;
+      color:#fff !important;
+      z-index:1000 !important;
+    }
+    .header-inner{
+      width:100% !important;
+      max-width: var(--max) !important;
+      margin: 0 auto !important;
+      padding: 0 18px !important;
+      display:flex !important;
+      align-items:center !important;
+      justify-content:flex-end !important;
+      gap:12px !important;
+      height: 100% !important;
+    }
+    .lang-switch{ display:flex !important; align-items:center !important; gap:10px !important; }
+    .lang-btn{
+      height:40px !important; width:40px !important;
+      padding:0 !important;
+      border-radius:999px !important;
+      border:1px solid rgba(255,255,255,.18) !important;
+      background: rgba(0,0,0,.18) !important; /* like 04 */
+      cursor:pointer !important;
+      display:inline-flex !important; align-items:center !important; justify-content:center !important;
+      transition: transform .14s ease, border-color .14s ease, background .14s ease, opacity .14s ease !important;
+      opacity:.92 !important;
+    }
+    .lang-btn:hover{
+      transform: translateY(-1px) !important;
+      border-color: rgba(124,58,237,.65) !important;
+      background: rgba(0,0,0,.26) !important;
+    }
+    body.lang-ja .lang-btn[data-set-lang="ja"],
+    body.lang-en .lang-btn[data-set-lang="en"]{
+      border-color: rgba(124,58,237,.75) !important;
+      background: rgba(124,58,237,.18) !important;
+      opacity: 1 !important;
+    }
+    .return-link{
+      border:1px solid rgba(255,255,255,.6) !important;
+      padding:10px 18px !important;
+      border-radius:999px !important;
+      text-decoration:none !important;
+      font-size:12px !important;
+      letter-spacing:.18em !important;
+      text-transform:uppercase !important;
+      display:inline-flex !important;
+      align-items:center !important;
+      justify-content:center !important;
+      height:40px !important;
+      white-space:nowrap !important;
+      background: transparent !important;
+    }
+
+    
+
+    
+
+    
+
+    
+
+    /* ---- Polaroid CROSS hero (2 photos) ---- */
+    .hero-photo{
+      margin-top: calc(var(--header) + 18px);
+      padding: 22px 18px 0;
+    }
+    .hero-photo-inner.polaroid-cross{
+      max-width: var(--max);
+      margin: 0 auto;
+      border-radius: 26px;
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.88));
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 26px 70px rgba(0,0,0,.12);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .polaroid-stack{
+      position: relative;
+      height: 340px;
+      padding: 18px 18px 0;
+      max-width: 760px;
+      margin: 0 auto;
+      width: 100%;
+      background: linear-gradient(135deg, rgba(255,240,246,.45), rgba(251,243,255,.55), rgba(255,253,248,.70));
+    }
+
+    .polaroid-card{
+      position:absolute;
+      width: 280px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(0,0,0,.06);
+      box-shadow: 0 18px 44px rgba(0,0,0,.16);
+      border-radius: 18px;
+      overflow:hidden;
+      transform-origin: 50% 60%;
+    }
+    .polaroid-card .polaroid-photo{
+      margin: 12px 12px 0;
+      border-radius: 14px;
+      overflow:hidden;
+      aspect-ratio: 1 / 1;
+      background: rgba(0,0,0,.05);
+      border: 1px solid rgba(0,0,0,.06);
+    }
+    .polaroid-card .polaroid-photo img{
+      width:100%; height:100%; object-fit: cover; display:block;
+      filter: saturate(1.05) contrast(1.02);
+    }
+    .polaroid-bottom{
+      padding: 10px 14px 14px;
+      display:flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 12px;
+      color: rgba(5,6,11,.56);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .polaroid-date{ opacity:.75; }
+    .polaroid-note{
+      font-weight: 800;
+      letter-spacing: .10em;
+      color: rgba(5,6,11,.62);
+    }
+
+    /* Cross positions (center-cluster; stays close on wide PC) */
+    .polaroid-card.p1{
+      left: 50%;
+      top: 22px;
+      transform: translateX(-48%) rotate(-6deg);
+      z-index: 1;
+    }
+    .polaroid-card.p2{
+      left: 50%;
+      top: 62px;
+      transform: translateX(2%) rotate(8deg);
+      z-index: 2;
+    }
+
+    /* Caption under the stack (thick paper area) */
+    .polaroid-caption{
+      padding: 16px 18px 22px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.92));
+    }
+
+    /* Titles + subtitles */
+    .hero-title{
+      margin: 2px 0 0;
+      font-size: 34px;
+      line-height: 1.05;
+      letter-spacing: .02em;
+      color: rgba(5,6,11,.92);
+    }
+    .hero-sub{
+      margin: 0;
+      color: rgba(5,6,11,.70);
+      font-size: 14px;
+      line-height: 1.6;
+      background: rgba(0,0,0,.03);
+      border: 1px solid rgba(0,0,0,.06);
+      padding: 10px 12px;
+      border-radius: 14px;
+    }
+
+    /* Make layout responsive */
+    @media (max-width: 820px){
+      .polaroid-stack{ height: 360px; }
+      .polaroid-card{ width: 240px; }
+      .polaroid-card.p1{ top: 18px; transform: translateX(-46%) rotate(-6deg); }
+      .polaroid-card.p2{ top: 70px; transform: translateX(4%) rotate(8deg); }
+    }
+    @media (max-width: 560px){
+      .polaroid-stack{ height: 410px; }
+      .polaroid-card{ width: 220px; }
+      .polaroid-card.p1{ top: 18px; transform: translateX(-46%) rotate(-6deg); }
+      .polaroid-card.p2{ top: 188px; transform: translateX(-2%) rotate(6deg); }
+    }
+      .polaroid-card{ width: 220px; }
+      .polaroid-card.p1{ left: 12px; top: 18px; }
+      .polaroid-card.p2{ right: 12px; top: 168px; transform: rotate(5deg); }
+    }
+
+    /* Badge styling */
+    .badge-soft{
+      border: 1px solid rgba(0,0,0,.08);
+      background: rgba(124,58,237,.10);
+      color: rgba(5,6,11,.78);
+    }
+
+
+    /* ---- FIX: force centered polaroid cluster (override duplicates) ---- */
+    .polaroid-stack{
+      max-width: 760px !important;
+      margin: 0 auto !important;
+      width: 100% !important;
+      position: relative !important;
+    }
+    .polaroid-card{ position:absolute !important; }
+    .polaroid-card.p1{
+      left: 50% !important;
+      top: 22px !important;
+      transform: translateX(-77%) rotate(-6deg) !important;
+      z-index: 1 !important;
+    }
+    .polaroid-card.p2{
+      left: 50% !important;
+      top: 62px !important;
+      transform: translateX(6%) rotate(8deg) !important;
+      z-index: 2 !important;
+    }
+
+    @media (max-width: 820px){
+      .polaroid-card.p1{ top: 18px !important; transform: translateX(-50%) rotate(-6deg) !important; }
+      .polaroid-card.p2{ top: 70px !important; transform: translateX(8%) rotate(8deg) !important; }
+    }
+    @media (max-width: 560px){
+      .polaroid-card.p1{ top: 18px !important; transform: translateX(-50%) rotate(-6deg) !important; }
+      .polaroid-card.p2{ top: 188px !important; transform: translateX(-8%) rotate(6deg) !important; }
+    }
+
+
+    /* ---- Responsive density fix (PC & mobile consistent) ---- */
+    :root{
+      --p: clamp(230px, 22vw, 360px);      /* polaroid card size */
+      --stackH: calc(var(--p) + 150px);    /* stack height */
+    }
+    .polaroid-stack{
+      height: var(--stackH) !important;
+      max-width: 900px !important;
+      margin: 0 auto !important;
+      width: 100% !important;
+      padding: 14px 18px 0 !important;
+      display: block !important;
+    }
+    .polaroid-card{
+      width: var(--p) !important;
+    }
+    .polaroid-card .polaroid-photo{
+      aspect-ratio: 1 / 1 !important;
+    }
+
+    /* Positioning tied to viewport/card size */
+    .polaroid-card.p1{
+      left: 50% !important;
+      top: clamp(12px, 2vw, 28px) !important;
+      transform: translateX(-72%) rotate(-6deg) !important;
+      z-index: 1 !important;
+    }
+    .polaroid-card.p2{
+      left: 50% !important;
+      top: clamp(60px, 5vw, 110px) !important;
+      transform: translateX(6%) rotate(8deg) !important;
+      z-index: 2 !important;
+    }
+
+    /* Phone: keep slightly closer + more overlap */
+    @media (max-width: 560px){
+      :root{ --p: clamp(210px, 78vw, 260px); }
+      .polaroid-card.p1{ transform: translateX(-62%) rotate(-6deg) !important; }
+      .polaroid-card.p2{ transform: translateX(-6%) rotate(6deg) !important; }
+      .polaroid-card.p2{ top: clamp(150px, 32vw, 210px) !important; }
+    }
+
+    /* Large desktop: reduce empty feeling */
+    @media (min-width: 1100px){
+      .polaroid-stack{ padding-top: 8px !important; }
+    }
+
+
+    /* profile lede (scene-style intro) */
+    .profile-lede{
+      margin: 10px 0 14px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(124,58,237,.10);
+      border: 1px solid rgba(124,58,237,.18);
+      color: rgba(5,6,11,.78);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    body.dark .profile-lede{
+      background: rgba(124,58,237,.14);
+      border-color: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.86);
+    }
+
+
+    /* ---- Never-clip safety for crossed polaroids (all sizes) ---- */
+    :root{
+      /* card size & offsets tuned to avoid cut-off AND avoid over-overlap */
+      --p-safe: clamp(200px, 58vw, 320px);
+      --stack-pad: clamp(12px, 4vw, 22px);
+      /* separation: larger on normal screens, automatically smaller on tiny screens via media query below */
+      --offset: clamp(34px, 10vw, 130px);
+      --top1: clamp(10px, 2vw, 26px);
+      --top2: clamp(58px, 6vw, 116px);
+      --stackH-safe: calc(var(--p-safe) + 170px);
+    }
+
+    /* Constrain the "cluster" so it always fits inside the hero card */
+    .polaroid-stack{
+      max-width: min(900px, 100%) !important;
+      width: 100% !important;
+      padding-left: var(--stack-pad) !important;
+      padding-right: var(--stack-pad) !important;
+      height: var(--stackH-safe) !important;
+      overflow: visible !important; /* allow internal overlap (still kept within parent) */
+      box-sizing: border-box !important;
+    }
+
+    .polaroid-card{
+      width: var(--p-safe) !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Place both cards around the center, shifting by a clamped offset */
+    .polaroid-card.p1{
+      left: 50% !important;
+      top: var(--top1) !important;
+      transform: translateX(calc(-50% - var(--offset))) rotate(-6deg) !important;
+    }
+    .polaroid-card.p2{
+      left: 50% !important;
+      top: var(--top2) !important;
+      transform: translateX(calc(-50% + var(--offset))) rotate(8deg) !important;
+    }
+
+    /* Extra-tight screens: reduce offset so right edge never cuts */
+    @media (max-width: 420px){
+      :root{
+        --p-safe: min(86vw, 250px);
+        --offset: clamp(12px, 5vw, 42px);
+        --top2: clamp(140px, 28vw, 210px);
+        --stackH-safe: calc(var(--p-safe) + 210px);
+      }
+      .polaroid-card.p2{
+        transform: translateX(calc(-50% + var(--offset))) rotate(6deg) !important;
+      }
+    }
+
+    /* Optional: ensure the hero card itself doesn't crop due to rounding on small devices */
+    .hero-photo-inner.polaroid-cross{
+      overflow: hidden !important; /* keep clean edges */
+    }
+
+
+    /* ---- Layout mode: PC horizontal overlap / Mobile vertical overlap ---- */
+    :root{
+      --p-safe: clamp(220px, 26vw, 360px);
+      --stack-pad: clamp(12px, 3vw, 22px);
+      --offsetX: clamp(70px, 12vw, 170px);  /* horizontal separation on wide screens */
+      --offsetY: clamp(54px, 6vw, 110px);   /* vertical offset between cards */
+      --top1: clamp(10px, 2vw, 26px);
+      --stackH-safe: calc(var(--p-safe) + 190px);
+    }
+
+    .polaroid-stack{
+      max-width: min(980px, 100%) !important;
+      width: 100% !important;
+      padding-left: var(--stack-pad) !important;
+      padding-right: var(--stack-pad) !important;
+      height: var(--stackH-safe) !important;
+      overflow: visible !important;
+      box-sizing: border-box !important;
+    }
+    .polaroid-card{ width: var(--p-safe) !important; }
+
+    /* Default (PC): horizontal overlap */
+    .polaroid-card.p1{
+      left: 50% !important;
+      top: var(--top1) !important;
+      transform: translateX(calc(-50% - var(--offsetX))) rotate(-6deg) !important;
+      z-index: 1 !important;
+    }
+    .polaroid-card.p2{
+      left: 50% !important;
+      top: calc(var(--top1) + var(--offsetY)) !important;
+      transform: translateX(calc(-50% + var(--offsetX))) rotate(8deg) !important;
+      z-index: 2 !important;
+    }
+
+    /* Mobile: vertical overlap (stacked) */
+    @media (max-width: 640px){
+  :root{
+    /* Mobile: keep both polaroids fully inside the hero (no clipping) */
+    --offsetX: clamp(14px, 4.5vw, 30px);
+    --offsetY: clamp(36px, 9vw, 66px);
+  }
+
+  /* Cross layout on mobile: nudge the whole pair DOWN a bit */
+  .polaroid-card.p1{
+    transform: translate(calc(-50% - var(--offsetX)),
+                         calc(-50% - var(--offsetY) + 180px))
+               rotate(-7deg) !important;
+  }
+
+  .polaroid-card.p2{
+    transform: translate(calc(-50% + var(--offsetX)),
+                         calc(-50% + var(--offsetY) + 180px))
+               rotate(6deg) !important;
+  }
+}
+
+    /* Extra-tight phones: force both fully in view */
+    @media (max-width: 420px){
+      :root{
+        --p-safe: min(88vw, 280px);
+        --offsetX: 0px;
+        --offsetY: clamp(160px, 34vw, 235px);
+        --stackH-safe: calc(var(--p-safe) + 280px);
+      }
+      .polaroid-card.p1{ transform: translateX(-50%) rotate(-4deg) !important; }
+      .polaroid-card.p2{ transform: translateX(-50%) rotate(5deg) !important; }
+    }
+
+</style>
+</head>
+<body class="lang-ja">
+<header class="header header-split">
+  <div class="header-photo-left" aria-hidden="true">
+    <img src="images/01_okoge/header.png" alt="OKOGE header banner"
+         onerror="this.style.display='none'; this.parentElement.classList.add('noimg');">
+    <div class="header-fade"></div>
+  </div>
+
+  <div class="header-inner">
+    <div class="lang-switch" aria-label="Language switch">
+      <button class="lang-btn" type="button" data-set-lang="ja" aria-label="日本語">
+        <img class="flag" src="images/flags/jp.png" alt="日本語">
+      </button>
+      <button class="lang-btn" type="button" data-set-lang="en" aria-label="English">
+        <img class="flag" src="images/flags/us.png" alt="English">
+      </button>
+    </div>
+
+    <a class="return-link" href="index.html">Return</a>
   </div>
 </header>
 <main>
-<section class="sec-dark" id="okoge">
-      <div class="section-inner scroll-fade">
-        <div class="section-label">OKOGE BUSINESS</div>
-        <h2 class="section-title">おこげ事業（YouTube）</h2>
-        <div class="section-title-sub">3–5 minutes / horizontal video</div>
-        <p class="section-lead">
-          ショートではなく、3〜5分の横動画で「おこげ」の魅力をじっくり残していきます。<br>
-          ポータルでは最新動画をハブとして整理し、過去動画はカードで回遊できるようにします。
-        </p>
-
-        <div class="grid-2">
-          <div class="panel">
-            <h3>What you’ll see</h3>
-            <ul class="list">
-              <li>日常の小さな変化（「今日のおこげ」）</li>
-              <li>季節イベント（服・小物・ルーティン）</li>
-              <li>小ネタ（“ながら雑学” と絡めた回もOK）</li>
-              <li>裏方は前に出さない（身バレ防止）</li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="embed" aria-label="YouTube embed">
-              <!-- TODO: your video id -->
-              <iframe
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="YouTube video player"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen></iframe>
-            </div>
-            <p class="hero-meta" style="margin:10px 2px 0; opacity:.85;">
-              ※ここは最新動画の埋め込み枠。公開後は動画IDを差し替えるだけで更新できます。
-            </p>
-          </div>
+  <!-- Photo hero (banner) -->
+  <section class="hero-photo" id="top">
+  <div class="hero-photo-inner polaroid-cross">
+    <div class="polaroid-stack" aria-hidden="true">
+      <div class="polaroid-card p1">
+        <div class="polaroid-photo">
+          <img src="images/01_okoge/banner1.png" alt="OKOGE photo 1"
+               onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, rgba(255,240,246,.65), rgba(251,243,255,.70), rgba(255,253,248,.80))';">
         </div>
-
-        <div class="cards" aria-label="okoge cards">
-          <article class="card" onclick="location.href='okoge.html'">
-            <div class="thumb"><img src="images/okoge_01.jpg" alt="おこげ動画サムネイルのプレースホルダー"></div>
-            <div class="kicker">okoge</div>
-            <div class="title">初めて名前を呼んだ日</div>
-            <div class="desc">小さな出来事を、3〜5分で。</div>
-            <div class="cta">DETAIL →</div>
-          </article>
-          <article class="card" onclick="location.href='okoge.html'">
-            <div class="thumb"><img src="images/okoge_02.jpg" alt="おこげ動画サムネイルのプレースホルダー"></div>
-            <div class="kicker">okoge</div>
-            <div class="title">“服貯金”の進捗を発表</div>
-            <div class="desc">応援される目標を、楽しみながら。</div>
-            <div class="cta">DETAIL →</div>
-          </article>
-          <article class="card" onclick="location.href='okoge.html'">
-            <div class="thumb"><img src="images/okoge_03.jpg" alt="おこげ動画サムネイルのプレースホルダー"></div>
-            <div class="kicker">okoge</div>
-            <div class="title">今日の“おこげ”小ネタ</div>
-            <div class="desc">雑学と混ぜてもOK。人格の統一が軸。</div>
-            <div class="cta">DETAIL →</div>
-          </article>
+        <div class="polaroid-bottom">
+          <span class="polaroid-date">2026.02</span>
+          <span class="polaroid-note">okoge</span>
         </div>
       </div>
+
+      <div class="polaroid-card p2">
+        <div class="polaroid-photo">
+          <img src="images/01_okoge/banner2.png" alt="OKOGE photo 2"
+               onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, rgba(255,240,246,.65), rgba(251,243,255,.70), rgba(255,253,248,.80))';">
+        </div>
+        <div class="polaroid-bottom">
+          <span class="polaroid-date">2026.02</span>
+          <span class="polaroid-note">diary</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="polaroid-caption">
+      <div class="badge-soft">OKOGE DIARY 🐾</div>
+
+      <h1 class="hero-title" data-lang="ja">おこげのきろく。</h1>
+      <h1 class="hero-title" data-lang="en">OKOGE DIARY.</h1>
+
+      <p class="hero-sub" data-lang="ja">ちいさな毎日を、ていねいに。写真と動画で残しています。</p>
+      <p class="hero-sub" data-lang="en">A gentle little diary — saved in photos and videos.</p>
+    </div>
+  </div>
+</section>
+
+  <div class="okoge-wrap">
+    <section class="sec-gray" id="okoge">
+      <div class="section-inner tight scroll-fade">
+        <div class="section-label"><span data-lang="en">PROFILE</span><span data-lang="ja">PROFILE</span></div>
+<p class="profile-lede" data-lang="ja">…あ、いた。<br>今日も洗濯機のまえでなにか話してる。<br><strong>おこげです。</strong></p>
+      <p class="profile-lede" data-lang="en">…oh, there.<br>Talking to the washing machine again.<br><strong>That’s OKOGE.</strong></p>
+
+        <div class="diary-grid">
+          <!-- Self-intro card (single cute card) -->
+          <div class="profile-card">
+            <div class="profile-photo">
+              <img src="images/01_okoge/profile.png" alt="OKOGE portrait"
+                   onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, rgba(255,240,246,.8), rgba(251,243,255,.8))';">
+            </div>
+            <div class="profile-body">
+              <div class="profile-name"><span class="stamp">🐶</span><span data-lang="ja">OKOGE</span><span data-lang="en">OKOGE</span></div>
+
+              <p class="profile-lines" data-lang="ja">おなまえ：おこげ
+すき：ごはんの時間とお昼ね
+とくい：なにも気にしないこと
+もくひょう：季節の服を買うこと
+
+まいにち、すこしずつちがうおこげです。</p>
+
+              <p class="profile-lines" data-lang="en">Name: OKOGE
+Loves: meal time & naps
+Good at: being unbothered
+Goal: a cute seasonal outfit
+
+Every day is a tiny bit different.</p>
+            </div>
+          </div>
+
+          <!-- Small photo strip -->
+          <div class="photo-strip" aria-label="photo highlights">
+            <div class="strip-title">
+              <h3>PHOTOS</h3>
+            </div>
+            <div class="strip-grid">
+              <a href="images/01_okoge/01.png" target="_blank" rel="noopener">
+                <img src="images/01_okoge/01.png" alt="OKOGE photo 01"
+                     onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, rgba(251,243,255,.9), rgba(255,240,246,.9))';">
+              </a>
+              <a href="images/01_okoge/02.png" target="_blank" rel="noopener">
+                <img src="images/01_okoge/02.png" alt="OKOGE photo 02"
+                     onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, rgba(251,243,255,.9), rgba(255,240,246,.9))';">
+              </a>
+              <a href="images/01_okoge/03.png" target="_blank" rel="noopener">
+                <img src="images/01_okoge/03.png" alt="OKOGE photo 03"
+                     onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, rgba(251,243,255,.9), rgba(255,240,246,.9))';">
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Featured video -->
+        <div class="video-card" style="margin-top:18px;">
+          <div class="video-head">
+            <h3 data-lang="ja">きょうのきろく</h3>
+            <h3 data-lang="en">today’s diary</h3>
+          </div>
+          <div class="video-frame">
+            <!-- Replace VIDEO_ID -->
+            <iframe
+              src="https://www.youtube.com/embed/VIDEO_ID?rel=0&modestbranding=1"
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+
+        <!-- Goal / story axis -->
+        <div class="goal-card" aria-label="okoge goal">
+          <div class="goal-title">
+            <div class="k">OKOGE GOAL</div>
+            <div class="t" data-lang="ja">季節の服を買う。</div>
+            <div class="t" data-lang="en">A seasonal outfit.</div>
+            <div class="s" data-lang="ja">ちいさく積み立てて、似合う一着を。</div>
+            <div class="s" data-lang="en">A little by little — saving for something cute.</div>
+          </div>
+          <div class="progress" aria-label="goal progress">
+            <div class="progress-top">
+              <div class="progress-amount">
+                <span class="amt" data-lang="ja"><span id="goalCurrentYen">¥6,330</span> / <span id="goalMaxYen">¥15,000</span></span>
+                <span class="amt" data-lang="en"><span id="goalCurrentUsd">$42</span> / <span id="goalMaxUsd">$100</span></span>
+              </div>
+              <div class="progress-meta">
+                <span class="rate" data-lang="ja">更新: <span id="goalRateStampJa">—</span></span>
+                <span class="rate" data-lang="en">Updated: <span id="goalRateStampEn">—</span></span>
+              </div>
+            </div>
+
+            <progress id="goalMeter"
+              value="6330" max="15000"
+              data-current-yen="6330"
+              data-max-yen="15000"
+              data-fx-fallback="150"
+              aria-label="progress meter"></progress>
+
+            <div class="goal-remaining" id="goalRemaining">
+              <span data-lang="ja">あと <span id="goalRemainYen">¥8,670</span> で達成！</span>
+              <span data-lang="en">Only <span id="goalRemainUsd">$58</span> to go!</span>
+            </div>
+</div>
+          <a class="btn-soft" href="https://www.youtube.com/" target="_blank" rel="noopener">
+            <span data-lang="ja">YouTubeへ</span>
+            <span data-lang="en">Open YouTube</span>
+          </a>
+        </div>
+
+      </div>
     </section>
+
+    <!-- Gallery -->
+    <section class="sec-dark" id="gallery">
+      <div class="section-inner scroll-fade">
+        <div class="section-label">GALLERY</div>
+        <h2 class="section-title" data-lang="ja">これまでのきろく</h2>
+        <h2 class="section-title" data-lang="en">memory shelf</h2>
+
+        <div class="cards" style="margin-top:14px;">
+          <!-- Use your own images; click opens the file -->
+          <a class="card" href="images/01_okoge/04.png" target="_blank" rel="noopener">
+            <div class="thumb"><img src="images/01_okoge/04.png" alt="OKOGE photo 04"
+              onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, rgba(251,243,255,.9), rgba(255,240,246,.9))';"></div>
+            <div class="kicker" data-lang="ja">きろく #01</div>
+            <div class="kicker" data-lang="en">entry #01</div>
+            <div class="title" data-lang="ja">はじめての○○</div>
+            <div class="title" data-lang="en">first little thing</div>
+            <div class="cta">OPEN →</div>
+          </a>
+
+          <a class="card" href="images/01_okoge/05.png" target="_blank" rel="noopener">
+            <div class="thumb"><img src="images/01_okoge/05.png" alt="OKOGE photo 05"
+              onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, rgba(251,243,255,.9), rgba(255,240,246,.9))';"></div>
+            <div class="kicker" data-lang="ja">きろく #02</div>
+            <div class="kicker" data-lang="en">entry #02</div>
+            <div class="title" data-lang="ja">ごきげんな日</div>
+            <div class="title" data-lang="en">a happy day</div>
+            <div class="cta">OPEN →</div>
+          </a>
+
+          <a class="card" href="images/01_okoge/06.png" target="_blank" rel="noopener">
+            <div class="thumb"><img src="images/01_okoge/06.png" alt="OKOGE photo 06"
+              onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, rgba(251,243,255,.9), rgba(255,240,246,.9))';"></div>
+            <div class="kicker" data-lang="ja">きろく #03</div>
+            <div class="kicker" data-lang="en">entry #03</div>
+            <div class="title" data-lang="ja">お昼ね研究</div>
+            <div class="title" data-lang="en">nap research</div>
+            <div class="cta">OPEN →</div>
+          </a>
+        </div>
+
+        <p class="section-lead" style="margin-top:12px;" data-lang="ja">
+          写真は増やすほど可愛くなる。ここは「宝箱」ゾーンです。
+        </p>
+        <p class="section-lead" style="margin-top:12px;" data-lang="en">
+          The more photos you add, the cuter it becomes — this is the “treasure box” area.
+        </p>
+      </div>
+    </section>
+  </div>
 </main>
 <footer>
     <div class="footer-inner">
@@ -858,5 +1892,129 @@
       el.setAttribute("aria-label", "Open " + (EXP[id]?.title || id));
     });
   </script>
+
+<script>
+  (function(){
+    const KEY = "heihey_lang";
+    const buttons = document.querySelectorAll("[data-set-lang]");
+    function applyLang(lang){
+      document.body.classList.remove("lang-ja","lang-en");
+      document.body.classList.add(lang === "en" ? "lang-en" : "lang-ja");
+      localStorage.setItem(KEY, lang === "en" ? "en" : "ja");
+      window.dispatchEvent(new Event("langchange"));
+    }
+    const saved = localStorage.getItem(KEY);
+    applyLang(saved || "ja");
+    buttons.forEach(btn=>{
+      btn.addEventListener("click", ()=> applyLang(btn.getAttribute("data-set-lang")));
+    });
+  })();
+</script>
+
+
+<script>
+  (function(){
+    function setHeaderFadeStop(){
+      const header = document.querySelector("header.header-has-photo");
+      const lang = header?.querySelector(".lang-switch");
+      const fade = header?.querySelector(".header-fade");
+      if(!header || !lang || !fade) return;
+
+      const headerRect = header.getBoundingClientRect();
+      const langRect = lang.getBoundingClientRect();
+
+      // End fade at the LEFT edge of the language switch (add a tiny buffer)
+      const end = Math.max(0, Math.round(langRect.left - headerRect.left - 6));
+      header.style.setProperty("--fade-end", end + "px");
+    }
+    window.addEventListener("load", setHeaderFadeStop);
+    window.addEventListener("resize", setHeaderFadeStop);
+    setHeaderFadeStop();
+  })();
+</script>
+
+<script>
+  (function(){
+    // ---------------- Goal Meter ----------------
+    // Parameters are editable in HTML:
+    // <progress id="goalMeter" value="6330" max="15000" data-current-yen="6330" data-max-yen="15000" data-fx-fallback="150">
+    const meter = document.getElementById("goalMeter");
+    if(!meter) return;
+
+    const elCurrentYen = document.getElementById("goalCurrentYen");
+    const elMaxYen = document.getElementById("goalMaxYen");
+    const elRemainYen = document.getElementById("goalRemainYen");
+
+    const elCurrentUsd = document.getElementById("goalCurrentUsd");
+    const elMaxUsd = document.getElementById("goalMaxUsd");
+    const elRemainUsd = document.getElementById("goalRemainUsd");
+
+    const elRateStampJa = document.getElementById("goalRateStampJa");
+    const elRateStampEn = document.getElementById("goalRateStampEn");
+
+    const MAX_YEN = Number(meter.getAttribute("data-max-yen") || meter.max || 15000);
+    let currentYen = Number(meter.getAttribute("data-current-yen") || meter.value || 0);
+    let usdJpyRate = Number(meter.getAttribute("data-fx-fallback") || 150); // JPY per 1 USD (fallback)
+
+    meter.max = MAX_YEN;
+    currentYen = Math.min(MAX_YEN, Math.max(0, currentYen));
+    meter.value = currentYen;
+
+    function fmtYen(n){
+      return "¥" + Math.round(n).toLocaleString();
+    }
+    function fmtUsdFromYen(yen){
+      return "$" + Math.round(yen / usdJpyRate).toLocaleString();
+    }
+
+    function updateUI(){
+      const remainYen = Math.max(0, MAX_YEN - currentYen);
+
+      // JA (Yen)
+      elCurrentYen && (elCurrentYen.textContent = fmtYen(currentYen));
+      elMaxYen && (elMaxYen.textContent = fmtYen(MAX_YEN));
+      elRemainYen && (elRemainYen.textContent = fmtYen(remainYen));
+
+      // EN (USD)
+      elCurrentUsd && (elCurrentUsd.textContent = fmtUsdFromYen(currentYen));
+      elMaxUsd && (elMaxUsd.textContent = fmtUsdFromYen(MAX_YEN));
+      elRemainUsd && (elRemainUsd.textContent = fmtUsdFromYen(remainYen));
+    }
+
+    function stampUpdated(dateObj){
+      const d = dateObj || new Date();
+      const iso = d.toISOString().slice(0,10);
+      elRateStampJa && (elRateStampJa.textContent = iso);
+      elRateStampEn && (elRateStampEn.textContent = iso);
+    }
+
+    async function fetchUsdJpy(){
+      // USD -> JPY rate
+      const url = "https://api.frankfurter.app/latest?from=USD&to=JPY";
+      try{
+        const res = await fetch(url, { cache: "no-store" });
+        if(!res.ok) throw new Error("rate fetch failed");
+        const data = await res.json();
+        const rate = data && data.rates && data.rates.JPY;
+        if(typeof rate === "number" && isFinite(rate) && rate > 0){
+          usdJpyRate = rate;
+        }
+      }catch(e){
+        // keep fallback
+      }finally{
+        stampUpdated(new Date());
+        updateUI();
+      }
+    }
+
+    // Init
+    stampUpdated(new Date());
+    updateUI();
+    fetchUsdJpy();
+
+    // Re-render on language change (currency + updated labels are language-specific via data-lang)
+    window.addEventListener("langchange", updateUI);
+  })();
+</script>
 </body>
 </html>
